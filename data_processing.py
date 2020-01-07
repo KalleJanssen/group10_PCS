@@ -3,6 +3,11 @@ from sgp4.earth_gravity import wgs72
 from sgp4.io import twoline2rv
 
 def tle_to_positions(filename):
+
+	"""
+	This functions takes an TLE-formatted file as input and returns the geological
+	position and velocity of the object
+	"""
 	f = open(filename, "r").read().splitlines()
 	
 	for line in f:
@@ -12,10 +17,6 @@ def tle_to_positions(filename):
 		if line[0] == '2':
 			l2 = line
 
-
-
-
-
 		satellite = twoline2rv(l1, l2, wgs72)
 		position, velocity = satellite.propagate(2000, 6, 29, 12, 50, 19) # 12:50:19 on 29 June 2000n
 
@@ -23,8 +24,9 @@ def tle_to_positions(filename):
 			print("An error occurred: ", satellite.error_message)  
 		
 
-		print(position)
-		print(velocity)		
+
+
+		return position, velocity	
 
 		
 		
