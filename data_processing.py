@@ -2,7 +2,7 @@ import numpy as np
 from sgp4.earth_gravity import wgs72
 from sgp4.io import twoline2rv
 
-def tle_to_positions(TLE_file):
+def tle_to_positions(filename):
 
 	"""
 	This functions takes an TLE-formatted file as input and returns the geological
@@ -23,7 +23,14 @@ def tle_to_positions(TLE_file):
 		if satellite.error != 0:
 			print("An error occurred: ", satellite.error_message)  
 
-		return position, velocity	
+		print("ID:", l1.split()[1])
+		print("Position: ", position)
+		print("Velocity: ", velocity)
 
-	if __name__ == '__main__':
-		tle_to_positions("tle.txt")
+	return position, velocity	
+
+
+# test
+
+if __name__ == '__main__':
+	tle_to_positions("tle.txt")
