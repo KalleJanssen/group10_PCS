@@ -31,6 +31,5 @@ def tle_to_positions(filename):
 
 
 # test
-
 if __name__ == '__main__':
 	tle_to_positions("tle.txt")
