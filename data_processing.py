@@ -9,7 +9,7 @@ def tle_to_positions(filename):
 	position and velocity of the object.
 	"""
 	f = open(filename, "r").read().splitlines()
-	
+	error1 = 0
 	for line in f:
 		if line[0] == '1':
 			l1 = line
@@ -21,13 +21,15 @@ def tle_to_positions(filename):
 		position, velocity = satellite.propagate(2000, 6, 29, 12, 50, 19) # 12:50:19 on 29 June 2000n
 
 		if satellite.error != 0:
-			print("An error occurred: ", satellite.error_message)  
+			error1 += 1
+			#print("An error occurred: ", satellite.error_message)
+		else:
+			print("ID:", l1.split()[1])
+			print("Position: ", position)
+			print("Velocity: ", velocity)
 
-		print("ID:", l1.split()[1])
-		print("Position: ", position)
-		print("Velocity: ", velocity)
-
-	return position, velocity	
+	print("{} errors out of {} data" .format(error1, len(f)))
+	return position, velocity
 
 
 # test
