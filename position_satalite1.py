@@ -50,6 +50,3 @@ for line in f:
         break
 plt.savefig('foo.png')
 
-
-
-
