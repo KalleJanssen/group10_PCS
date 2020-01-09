@@ -49,3 +49,7 @@ for line in f:
     if error1 == 20:
         break
 plt.savefig('foo.png')
+
+
+
+

@@ -8,6 +8,8 @@ def tle_to_positions(filename):
 	This functions takes an TLE-formatted file as input and returns the geological
 	position and velocity of the object.
 	"""
+
+	positions = []
 	f = open(filename, "r").read().splitlines()
 	error1 = 0
 	for line in f:
@@ -20,6 +22,7 @@ def tle_to_positions(filename):
 		satellite = twoline2rv(l1, l2, wgs72)
 		position, velocity = satellite.propagate(2000, 6, 29, 12, 50, 19) # 12:50:19 on 29 June 2000n
 
+
 		if satellite.error != 0:
 			error1 += 1
 			#print("An error occurred: ", satellite.error_message)
@@ -27,9 +30,10 @@ def tle_to_positions(filename):
 			print("ID:", l1.split()[1])
 			print("Position: ", position)
 			print("Velocity: ", velocity)
+			positions.append(position)
 
-	print("{} errors out of {} data" .format(error1, len(f)))
-	return position, velocity
+	print("{} errors out of {} data" .format(error1, len(f)/2))
+	return position, velocity, positions
 
 
 # test
