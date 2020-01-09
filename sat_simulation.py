@@ -9,7 +9,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def get_satellite(index, filename):
+def get_satellite_from_TLE(index, filename):
 	"""
 	This function takes an index and a filename and returns
 	the satellite object of sgp4 (called satellite_pos_obj) 
@@ -57,7 +57,7 @@ def get_list_of_sat_pos_objs(amount, filename):
 	sat_pos_obj_list = []
 
 	for i in range(0, amount, 2):
-		satellite_pos_obj = get_satellite(i, filename)
+		satellite_pos_obj = get_satellite_from_TLE(i, filename)
 		sat_pos_obj_list.append(satellite_pos_obj)
 
 	return sat_pos_obj_list
@@ -76,7 +76,7 @@ def sat_simulate(filename, amount_of_satellites, simulation_time):
 	sat_pos_obj_list  = get_list_of_sat_pos_objs(3000, "tle.txt")
 
 
-	# start simulatio
+	# start simulation
 	start = time.time()
 	for i in range(simulation_time):
 		print(i)
