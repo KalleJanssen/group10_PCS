@@ -64,7 +64,7 @@ def get_list_of_sat_pos_objs(amount, filename):
 
 
 
-def simulate(filename, amount_of_satellites, simulation_time):
+def sat_simulate(filename, amount_of_satellites, simulation_time):
 	"""
 	This function simulates the satellites orbting the Earth
 	using the given TLE file, amount of satellites and simulation duration
@@ -84,17 +84,18 @@ def simulate(filename, amount_of_satellites, simulation_time):
 			pos = get_position(obj, i)
 
 
-	elapsed_time_fl = (time.time() - start) 
+	elapsed_time = (time.time() - start) 
 		
 			
-	return elapsed_time_fl
+	return elapsed_time
 
 
 	
 # test
 if __name__ == '__main__':
 	
-	simulate("tle.txt", 3000, 120)
+	elapsed_time = sat_simulate("tle.txt", 3000, 120)
+	print("Simulation duration: ", elapsed_time)
 	
 
 	
