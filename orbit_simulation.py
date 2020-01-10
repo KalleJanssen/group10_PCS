@@ -3,7 +3,7 @@ from sat_simulation import get_list_of_sat_pos_objs
 import time
 import matplotlib.pyplot as plt
 
-sat_pos_objs = get_list_of_sat_pos_objs(20, "output.txt")
+sat_pos_objs = get_list_of_sat_pos_objs(20, "data/output.txt")
 
 
 def create_sat_list(sat_pos_objs):
@@ -23,24 +23,18 @@ satellites = create_sat_list(sat_pos_objs)
 simulation_time = 14000
 
 fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d')  
+ax = fig.add_subplot(111, projection='3d')
 
 # start simulation
 start = time.time()
 for i in range(simulation_time):
 	print("Seconds: {}".format(i), end="\r")
 	for sat in satellites:
-		sat.move_in_orbit(1) 
+		sat.move_in_orbit(1)
 		ax.scatter(sat.x, sat.y, sat.z, c='black', marker='.', lw=0)
-		
-		
-plt.savefig('sim.png')
-elapsed_time = (time.time() - start) 
+
+
+plt.savefig('plots/sim.png')
+elapsed_time = (time.time() - start)
 
 print("\n\n Elapsed time:", elapsed_time/60, "minutes6")
-
-
-
-
-
-

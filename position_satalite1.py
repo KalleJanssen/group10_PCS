@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 from mpl_toolkits import mplot3d
 import numpy as np
 import matplotlib.pyplot as plt
+from cleaning_data import *
 
 def hourly_it(start, finish):
     while finish > start:
@@ -35,7 +36,7 @@ def plotting(l1, l2):
         zline = [i[2] for i in position_list]
         ax.plot3D(xline, yline, zline, 'gray')
 
-f = open("tle.txt", "r").read().splitlines()
+f = open("data/output.txt", "r").read().splitlines()
 position_list = []
 error1 = 0
 for line in f:
@@ -46,7 +47,8 @@ for line in f:
     if line[0] == '2':
         l2 = line
     plotting(l1, l2)
-    if error1 == 20:
+    if error1 % 10 == 0:
+        print("{} percent done" .format(error1/200*100), end="\r")
+    if error1 == 200:
         break
-plt.savefig('foo.png')
-
+plt.savefig('plots/foo.png')

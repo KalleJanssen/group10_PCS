@@ -16,7 +16,7 @@ def cleaned_data(filename):
 	that provides errors or outliers
 	"""
 	f = open(filename, "r").read().splitlines()
-	open('output.txt', 'w').close()
+	open('data/output.txt', 'w').close()
 
 	# goes through all data
 	for line in f:
@@ -32,7 +32,7 @@ def cleaned_data(filename):
 
 		# writes to file if no error and satellite has expected xyz-coordinates
 		if satellite.error == 0 and within_bounds(position):
-			with open("output.txt", "a") as text_file:
+			with open("data/output.txt", "a") as text_file:
 				text_file.write(l1)
 				text_file.write("\n")
 				text_file.write(l2)
@@ -41,4 +41,4 @@ def cleaned_data(filename):
 
 # test
 if __name__ == '__main__':
-	cleaned_data("tle.txt")
+	cleaned_data("data/tle.txt")

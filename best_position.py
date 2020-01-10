@@ -63,9 +63,9 @@ def plot_satellites(coord_list):
     ax.set_ylabel('Y Label')
     ax.set_zlabel('Z Label')
 
-    plt.savefig('foo.png')
+    plt.savefig('plots/foo.png')
 
-filename = open("output.txt", "r").read().splitlines()
+filename = open("data/output.txt", "r").read().splitlines()
 position_dict = {}
 error1 = 0
 
