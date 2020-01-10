@@ -11,7 +11,7 @@ Week 2
 4. Laser beam spot size/range implementeren
 5. Laser beam  object/model itself maken en programmeren volgens artikelen/ORION
 6. Sateliet-metadata vinden en koppelen aan Satellite-object
-
+ 
 Week 3/4
 7. Visualiseren simulatie
 8. Poster maken

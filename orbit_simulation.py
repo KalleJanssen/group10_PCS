@@ -20,7 +20,7 @@ def create_sat_list(sat_pos_objs):
 # SIMULATION
 satellites = create_sat_list(sat_pos_objs)
 
-simulation_time = 140
+simulation_time = 7200
 
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
@@ -28,10 +28,10 @@ ax = fig.add_subplot(111, projection='3d')
 # start simulation
 start = time.time()
 for i in range(simulation_time):
-	print("Seconds: {}".format(i), end="\r")
+	print(" Progress: {0:.2f} of 100%".format(i/simulation_time * 100), end="\r")
 	for sat in satellites:
 		sat.move_in_orbit(1)
-		print(sat.x, sat.y, sat.x)
+		
 		ax.scatter(sat.x, sat.y, sat.z, c='black', marker='.', lw=0)
 
 
