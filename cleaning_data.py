@@ -2,14 +2,14 @@ import numpy as np
 from sgp4.earth_gravity import wgs72
 from sgp4.io import twoline2rv
 
-def within_bounds(x):
+def within_bounds(tuple_xyz):
 	"""
-	returns True if value is between -8000 and 8000
+	returns False if a coordinate is clearly outside of lower earth orbit
 	"""
-	if x > -8000 and x < 8000:
-		return True
-	else:
-		return False
+	for coord in tuple_xyz:
+		if coord < -8000 or coord > 8000:
+			return False
+	return True
 
 def cleaned_data(filename):
 	"""
@@ -35,7 +35,7 @@ def cleaned_data(filename):
 		# writes to file if no error and satellite has expected xyz-coordinates
 		if satellite.error != 0:
 			error1 += 1
-		elif within_bounds(position[0]) and within_bounds(position[1]) and within_bounds(position[2]):
+		elif within_bounds(position):
 			with open("output.txt", "a") as text_file:
 				text_file.write(l1)
 				text_file.write("\n")
@@ -43,6 +43,7 @@ def cleaned_data(filename):
 				text_file.write("\n")
 		else:
 			error1 += 1
+	print(error1)
 	return 1
 
 
