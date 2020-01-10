@@ -31,6 +31,7 @@ for i in range(simulation_time):
 	print("Seconds: {}".format(i), end="\r")
 	for sat in satellites:
 		sat.move_in_orbit(1)
+		print(sat.x, sat.y, sat.x)
 		ax.scatter(sat.x, sat.y, sat.z, c='black', marker='.', lw=0)
 
 
