@@ -20,7 +20,7 @@ def create_sat_list(sat_pos_objs):
 # SIMULATION
 satellites = create_sat_list(sat_pos_objs)
 
-simulation_time = 14000
+simulation_time = 140
 
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
