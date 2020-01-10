@@ -1,0 +1,26 @@
+
+
+
+Grove planning
+
+
+Week 2
+1. Uitzoeken hoe de TLE data aangepast worden, wat betekenen de waardes in de kolommen?
+2. Welke waardes moeten er worden veranderd/zijn afhankelijk van de baan en snelheid van een satelliet?
+3. Uitzoeken hoe we de orbit coordinaten kunnen mappen naar aarde-coordinaten (lengte/breedte -graden)
+4. Laser beam spot size/range implementeren
+5. Laser beam  object/model itself maken en programmeren volgens artikelen/ORION
+6. Sateliet-metadata vinden en koppelen aan Satellite-object
+
+Week 3/4
+7. Visualiseren simulatie
+8. Poster maken
+9. Report maken
+
+
+Wie doet wat? (voor week 2)
+
+Renee: 1, 2
+Kalle: 3, 4
+Bart: 5, 6
+
