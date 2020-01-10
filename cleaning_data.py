@@ -31,7 +31,7 @@ def cleaned_data(filename):
 		position, velocity = satellite.propagate(2010, 6, 29, 12, 50, 19)
 
 		# writes to file if no error and satellite has expected xyz-coordinates
-		if satellite.error == 0 andwithin_bounds(position):
+		if satellite.error == 0 and within_bounds(position):
 			with open("output.txt", "a") as text_file:
 				text_file.write(l1)
 				text_file.write("\n")
