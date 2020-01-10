@@ -3,7 +3,7 @@ from sat_simulation import get_list_of_sat_pos_objs
 import time
 import matplotlib.pyplot as plt
 
-sat_pos_objs = get_list_of_sat_pos_objs(20, "tle.txt")
+sat_pos_objs = get_list_of_sat_pos_objs(20, "output.txt")
 
 
 def create_sat_list(sat_pos_objs):
@@ -17,13 +17,10 @@ def create_sat_list(sat_pos_objs):
 	return sat_list
 
 
-
-
-
 # SIMULATION
 satellites = create_sat_list(sat_pos_objs)
 
-simulation_time = 600
+simulation_time = 14000
 
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')  
