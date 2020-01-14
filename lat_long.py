@@ -12,16 +12,16 @@ def lati_long(line1, line2, name = "ISS (ZARYA)"):
     then calculates the distance between them in lower earth orbit
     """
     tle_rec = ephem.readtle(name, line1, line2)
-    tle_rec.compute('2020/1/14 10:29:0')
+    tle_rec.compute('2020/1/10 15:21:22')
     print("lati: {}, long: {}".format(tle_rec.sublat / degree, tle_rec.sublong / degree))
 
     tle_rec1 = ephem.readtle(name, line1, line2)
-    tle_rec1.compute('2020/1/14 10:29:10')
+    tle_rec1.compute('2020/1/10 15:21:24')
     print("lati: {}, long: {}".format(tle_rec1.sublat / degree, tle_rec1.sublong / degree))
 
     satellite = twoline2rv(line1, line2, wgs72)
-    i, velocity = satellite.propagate(2020, 1, 14, 10, 29, 0)
-    j, velocity = satellite.propagate(2020, 1, 14, 10, 29, 10)
+    i, velocity = satellite.propagate(2020, 1, 10, 15, 21, 22)
+    j, velocity = satellite.propagate(2020, 1, 10, 15, 21, 24)
     total = np.sqrt((i[0] - j[0])**2 + (i[1] - j[1])**2 + (i[2] - j[2])**2)
     print("Distance in LEO: {} km" .format(total))
     return tle_rec, tle_rec1
@@ -45,8 +45,8 @@ def distance(tle_rec, tle_rec1):
 
     print("Distance on ground: {} km" .format(distance))
 
-line1 = "1  2435U 66087A   20006.84210147 -.00000023 +00000-0 +10264-3 0  9998"
-line2 = "2  2435 100.9287 033.6566 0064427 070.0261 102.1624 12.56842164443355"
+line1 = "1  6148U 72062A   20007.46977008  .00000034  00000-0  17725-4 0  9999"
+line2 = "2  6148  82.9672 253.1676 0009181 318.9609 214.7007 13.81795759388858"
 
 tle_rec, tle_rec1 = lati_long(line1, line2)
 distance(tle_rec, tle_rec1)

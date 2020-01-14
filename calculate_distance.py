@@ -13,6 +13,6 @@ for k in final_list:
     for i in k:
         copy_list.remove(i)
         for j in copy_list:
-            total = np.sqrt((i[0] - j[0])**2 + (i[1] - j[1])**2 + (i[1] - j[1])**2)
+            total = np.sqrt((i[0] - j[0])**2 + (i[1] - j[1])**2 + (i[2] - j[2])**2)
             if total < 10 and i != j:
                 print(total)
