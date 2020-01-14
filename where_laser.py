@@ -1,3 +1,7 @@
+"""
+Calculates best place to place the laser
+"""
+
 import ephem
 import datetime
 from sgp4.earth_gravity import wgs72
@@ -10,16 +14,20 @@ from math import sin, cos, sqrt, atan2, radians
 from best_position import *
 import operator
 
-print("Takes about 5 minutes")
-print("Result should be (82.0, 32.0) (lati, longi) with 475 satellites")
-
 filename = open("data/output.txt", "r").read().splitlines()
 
 # start and finish time in year month day hour minute second
 start = datetime(2020, 1, 10, 14, 0, 0)
 finish = datetime(2020, 1, 10, 16, 0, 0)
 
+print("Takes about 5 minutes")
+print("Result should be (80.0, -15.0) (lati, longi) with 813 satellites")
+
 name = "ISS (ZARYA)"
+
+def myround(x, base):
+    return base * round(x/base)
+
 def possible_coords(n_long=361, n_lat=181):
     """
     Makes a dictionary with all possible coordinate combinations
@@ -54,8 +62,10 @@ def calc_loc(dicti, filename):
         for i in hourly_it(start, finish):
             tle_rec = ephem.readtle(name, l1, l2)
             tle_rec.compute(i)
-            lati = round((tle_rec.sublat / degree), 0)
-            longi = round((tle_rec.sublong / degree), 0)
+            # lati = round((tle_rec.sublat / degree), -1)
+            # longi = round((tle_rec.sublong / degree), -1)
+            lati = myround((tle_rec.sublat / degree), 5)
+            longi = myround((tle_rec.sublong / degree), 5)
             if (lati, longi) not in listi:
                 listi.append((lati, longi))
 
@@ -69,7 +79,7 @@ def calc_loc(dicti, filename):
             print("{} percent done" .format(percent_done), end="\r")
     return dicti
 
-dicti = calc_loc(possible_coords(), filename)
+dicti = calc_loc(possible_coords(73, 37), filename)
 
 # Coordinates with most satellites
 place = max(dicti.items(), key=operator.itemgetter(1))[0]
