@@ -70,7 +70,7 @@ class Satellite(object):
 
 		return new_position
 
-	def get_n
+
 
 
 
