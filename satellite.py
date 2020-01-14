@@ -59,7 +59,6 @@ class Satellite(object):
 		new_orbital_time = (year, month, day, hour, minutes, sec+seconds)
 		self.orbital_time = new_orbital_time
 
-
 		# calculate new position and set attributes
 		new_position = self.sat_pos_obj.propagate(year, month, day, hour, minutes, self.orbital_time[5])[0]
 		self.x = new_position[0]
