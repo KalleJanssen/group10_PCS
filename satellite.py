@@ -30,11 +30,6 @@ class Satellite(object):
 		self.x = 0
 		self.y = 0
 		self.z = 0
-		self.height = height
-		self.width = width
-		self.length = length
-		self.mass = mass
-		self.cross_section = cross_section
 		self.sat_number = sat_pos_obj.satnum
 		self.orbital_time = (0, 0, 0, 0, 0, 0)
 
