@@ -32,7 +32,7 @@ def get_satellite_from_TLE(index, filename):
 	# get sgp4 sattelite oobject
 	satellite_pos_obj = twoline2rv(l1, l2, wgs72)
 
-	return satellite_pos_obj
+	return satellite_pos_obj, l1, l2
 
 
 def get_position(satellite_pos_obj, time_sec):
@@ -57,8 +57,11 @@ def get_list_of_sat_pos_objs(amount, filename):
 	sat_pos_obj_list = []
 
 	for i in range(0, amount, 2):
-		satellite_pos_obj = get_satellite_from_TLE(i, filename)
-		sat_pos_obj_list.append(satellite_pos_obj)
+		satellite_pos_obj = get_satellite_from_TLE(i, filename)[0]
+		TLE_l1 = get_satellite_from_TLE(i, filename)[1]
+		TLE_l2 = get_satellite_from_TLE(i, filename)[2]
+
+		sat_pos_obj_list.append((satellite_pos_obj, TLE_l1, TLE_l2))
 
 	return sat_pos_obj_list
 

@@ -23,17 +23,17 @@ NOTE: The in the TLE-file stated orbital angles and other complex space numbers 
 """
 
 
-
 class Satellite(object):
-	def __init__(self, sat_pos_obj, height, width, length, mass, cross_section):
+	def __init__(self, TLE_l1, TLE_l2, sat_pos_obj, height, width, length, mass, cross_section):
 		self.sat_pos_obj = sat_pos_obj
 		self.x = 0
 		self.y = 0
 		self.z = 0
 		self.sat_number = sat_pos_obj.satnum
+		self.l1 = TLE_l1
+		self.l2 = TLE_l2
 		self.orbital_time = (0, 0, 0, 0, 0, 0)
 
-	
 
 	def set_position(self, year, month, day, hour, minutes, sec):
 
@@ -63,6 +63,18 @@ class Satellite(object):
 		# return new position
 
 		return new_position
+
+	#def change_velocity(self, d_velocity):
+
+
+	def get_tle_lines(self):
+		return self.l1, self.l2
+
+
+
+
+
+
 
 
 

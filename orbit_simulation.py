@@ -3,7 +3,7 @@ from sat_simulation import get_list_of_sat_pos_objs
 import time
 import matplotlib.pyplot as plt
 
-sat_pos_objs = get_list_of_sat_pos_objs(20, "data/output.txt")
+sat_pos_objs = get_list_of_sat_pos_objs(20, "output.txt")
 
 
 
@@ -11,7 +11,11 @@ def create_sat_list(sat_pos_objs):
 	sat_list = []
 	for obj in sat_pos_objs:
 		# create satellite and set position
-		sat = Satellite(obj, 1, 1, 1, 3000, 25)
+
+		pos_obj = obj[0]
+		l1 = obj[1]
+		l2 = obj[2]
+		sat = Satellite(l1, l2, pos_obj, 1, 1, 1, 3000, 25)
 		sat.set_position(2019, 12, 12, 12, 12, 12)
 		sat_list.append(sat)
 
