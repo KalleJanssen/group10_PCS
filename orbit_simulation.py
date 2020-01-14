@@ -3,7 +3,7 @@ from sat_simulation import get_list_of_sat_pos_objs
 import time
 import matplotlib.pyplot as plt
 
-sat_pos_objs = get_list_of_sat_pos_objs(10000, "data/output_big.txt")
+sat_pos_objs = get_list_of_sat_pos_objs(20, "data/output.txt")
 
 
 

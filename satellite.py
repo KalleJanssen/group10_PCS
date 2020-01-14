@@ -1,4 +1,4 @@
-import matplotlib.pyplot as plt
+piimport matplotlib.pyplot as plt
 import numpy
 import time
 from sgp4.earth_gravity import wgs72
@@ -70,6 +70,7 @@ class Satellite(object):
 
 		return new_position
 
+	def get_n
 
 
 
