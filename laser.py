@@ -24,7 +24,10 @@ class Laser(object):
 		self.power = power
 		self.range = beam_range
 		self.spot_size = spot_size
+
 		
 	def hit_satellite(satellite_object, duration):
 		return 0
+
+
 		
