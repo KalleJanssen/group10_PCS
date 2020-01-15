@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 from mpl_toolkits import mplot3d
 import numpy as np
 import matplotlib.pyplot as plt
-
+import geopy.distance
 
 
 """
@@ -19,18 +19,24 @@ This class contains a Laser object
 
 
 class Laser(object):
-	def __init__(self, longitude, latitude, power, beam_range, spot_size):
-		self.longitude = longitude
-		self.latitude = latitude
-		self.power = power
+	def __init__(self, latitude, longitude, max_power, beam_range, spot_size):
+		self.long = longitude
+		self.lat = latitude
+		self.max_power = max_power
 		self.range = beam_range
 		self.spot_size = spot_size
 
 
 	def sat_distance(self, satellite: Satellite):
+		lat_sat, long_sat = satellite.get_lat_long()
+		coords_sat = (lat_sat, long_sat)
+		coords_laser = (self.lat, self.long)
+		surface_d = geopy.distance.vincenty(coords_sat, coords_laser).km
+		sat_height = satellite.calc_height()[1]
 
+		d = np.sqrt(surface_d**2 + sat_height**2)
 
-		return 0
+		return d
 
 
 	def calc_velocity_change(self):
