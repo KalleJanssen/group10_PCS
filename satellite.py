@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 
 
 """
-This Class contains a satellite object, with its positions and spatial sctructure
+This Class contains a Satellite object, with its positions and TLE data
 
 
 To create the object, first use the get_satellite_from_TLE or 
@@ -35,6 +35,7 @@ class Satellite(object):
 		self.orbital_time = (0, 0, 0, 0, 0, 0)
 
 
+
 	def set_position(self, year, month, day, hour, minutes, sec):
 
 		self.orbital_time = (year, month, day, hour, minutes, sec)
@@ -47,16 +48,21 @@ class Satellite(object):
 
 		return position
 
-	def get_position_and_velocity(self):
+	def calc_height(self):
+		height_from_center = np.sqrt(self.x ** 2 + self.y ** 2 + self.z ** 2)
+		height_from_surface = height_from_center-6371
+		return height_from_center, height_from_surface
+
+	def calc_velocity(self):
 
 		# get position
 		year, month, day, hour, minutes, sec = self.orbital_time
-		position, velo = self.sat_pos_obj.propagate(year, month, day, hour, minutes, sec)
+		velo = self.sat_pos_obj.propagate(year, month, day, hour, minutes, sec)[1]
 
 		# calculate velocity from vector components
 		velocity = np.sqrt(velo[0]**2 + velo[1]**2 +velo[2]**2) * 3600
 
-		return position, velocity
+		return velocity
 
 	def move_in_orbit(self, seconds):
 
@@ -85,7 +91,6 @@ class Satellite(object):
 		mean_motion = list(mean_motion)
 
 
-
 		# get it back in right TLE format
 		l2_listed = list(self.l2)
 		l2_listed[52:63] = mean_motion
@@ -101,20 +106,6 @@ class Satellite(object):
 		return self.sat_pos_obj
 
 
-
-
-	def change_velocity(self, d_velocity, C_0m):
-		# this function uses mathematical space model to change velocity and
-		# other values in the TLE data to change the satellite's orbit/eject it
-		# From this new TLE data, a new pos obj can be created
-		new_pos_obj = 0
-
-		return new_velo, old_velo
-
-
-
-	def get_tle_lines(self):
-		return self.l1, self.l2
 
 
 
