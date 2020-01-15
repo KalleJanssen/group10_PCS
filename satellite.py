@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 
 
 """
-This Class contains a satellite object, with its positions and spatial sctructure
+This Class contains a Satellite object, with its positions and TLE data
 
 
 To create the object, first use the get_satellite_from_TLE or 
