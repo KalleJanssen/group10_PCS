@@ -35,6 +35,7 @@ class Satellite(object):
 		self.orbital_time = (0, 0, 0, 0, 0, 0)
 
 
+
 	def set_position(self, year, month, day, hour, minutes, sec):
 
 		self.orbital_time = (year, month, day, hour, minutes, sec)

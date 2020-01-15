@@ -30,17 +30,21 @@ class Laser(object):
 	def sat_distance(self, satellite: Satellite):
 
 
+		return 0
+
+
 	def calc_velocity_change(self):
+		return 0
 
 
 
 
-	def hit_satellite(satellite_object, duration, calc_velocity_change):
+	def hit_satellite(satellite: Satellite, duration, velocity_change):
 
 		for i in range(duration):
-			satellite_object.change_mean_motion(0.1)
+			satellite.change_mean_motion(0.1)
 
-			print(satellite_object.get_position_and_velocity[1])
+			print(satellite.get_position_and_velocity[1])
 
 
 		return satellite_object

@@ -43,7 +43,7 @@ fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
 
 col = 'blue'
-simulation_time = 1400
+simulation_time = 2000
 
 
 for i in range(simulation_time):
