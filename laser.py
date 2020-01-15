@@ -27,9 +27,10 @@ class Laser(object):
 		self.spot_size = spot_size
 
 
+	def sat_distance(self, satellite: Satellite):
 
 
-	#def calc_velocity_change(self):
+	def calc_velocity_change(self):
 
 
 

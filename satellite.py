@@ -48,7 +48,9 @@ class Satellite(object):
 		return position
 
 	def calc_height(self):
-		return np.sqrt(self.x**2 + self.y**2 +self.z**2)
+		height_from_center = np.sqrt(self.x ** 2 + self.y ** 2 + self.z ** 2)
+		height_from_surface = height_from_center-6371
+		return height_from_center, height_from_surface
 
 	def calc_velocity(self):
 

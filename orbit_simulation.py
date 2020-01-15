@@ -48,17 +48,19 @@ simulation_time = 1400
 
 for i in range(simulation_time):
 
-    print(" Progress: {0:.2f} of 100%".format(i / simulation_time * 100), end="\r")
+
     TEST.move_in_orbit(1)
     velocity = TEST.calc_velocity()
-    height = TEST.calc_height()
+    height_center, height_surface = TEST.calc_height()
 
-    print(height, end="\n")
+    print("Height from Earth's center:", height_center)
+    print("Height from Earth's surface:", height_surface)
 
     ax.scatter(TEST.x, TEST.y, TEST.z, s=20, c=col, marker='.')
 
-    if i == 7200:
-        TEST.change_mean_motion(2.0)
+    if i == 700:
+        print("LASER HIT")
+        TEST.change_mean_motion(5.0)
         col = 'red'
 
 
