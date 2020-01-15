@@ -6,12 +6,11 @@ from datetime import datetime, timedelta
 from mpl_toolkits import mplot3d
 import numpy as np
 from ephem import degree
-from math import sin, cos, sqrt, atan2, radians
+from math import sin, cos, sqrt, atan2, radians, acos, degrees
 from best_position import *
 import operator
 
 print("Takes about 5 minutes")
-print("Result should be (80.0, -15.0) (lati, longi) with 813 satellites")
 
 filename = open("data/output.txt", "r").read().splitlines()
 
@@ -20,12 +19,6 @@ start = datetime(2020, 1, 10, 14, 0, 0)
 finish = datetime(2020, 1, 10, 16, 0, 0)
 
 name = "ISS (ZARYA)"
-
-def myround(x, base):
-    """
-    Rounds numbers to a specific base (eg 1,2 or 5)
-    """
-    return base * round(x/base)
 
 def possible_coords(n_long=361, n_lat=181):
     """
@@ -38,6 +31,18 @@ def possible_coords(n_long=361, n_lat=181):
             dicti[calc] = 0
     return dicti
 
+def lati_longi(l1, l2, time1, rounding=0, name="ISS (ZARYA)"):
+    """
+    Returns latitude and longitude of a satellite, can be rounded to 1, 2 or 5
+    """
+    tle_rec = ephem.readtle(name, l1, l2)
+    tle_rec.compute(time1)
+    lati = (tle_rec.sublat / degree)
+    longi = (tle_rec.sublong / degree)
+    if rounding != 0:
+        lati = rounding * round(lati/rounding)
+        longi = rounding * round(longi/rounding)
+    return lati, longi
 
 def calc_loc(dicti, filename):
     """
@@ -61,10 +66,7 @@ def calc_loc(dicti, filename):
         # Goes through all seconds of the given period and calculates the
         # coordinates for those seconds
         for i in hourly_it(start, finish):
-            tle_rec = ephem.readtle(name, l1, l2)
-            tle_rec.compute(i)
-            lati = myround((tle_rec.sublat / degree), 5)
-            longi = myround((tle_rec.sublong / degree), 5)
+            lati, longi = lati_longi(l1, l2, i, 5)
 
             # Location of laser
             if (lati, longi) == (80.0, -15.0):
@@ -81,10 +83,21 @@ def calc_loc(dicti, filename):
                 total = np.sqrt((i1[0] - j1[0])**2 + (i1[1] - j1[1])**2 + (i1[2] - j1[2])**2)
                 if total > highest_total:
                     highest_total = total
+                    best_i1 = i1
+                    best_j1 = j1
         if progress % 30 == 0:
             percent_done = round(progress/len(filename)*100, 0)
             print("{} percent done" .format(percent_done), end="\r")
+
+    # Calculates the angle that the laser should be able to reach
+    # takes the maximum distance between two satellites while they are both in
+    # the range of the laser. Then calculates the height of the satellites minus
+    # the radius of the earth, finally calculates the angle of the laser
+    b = np.sqrt((best_i1[0])**2 + (best_i1[1])**2 + (best_i1[2])**2) - 6371
+    c = np.sqrt((best_j1[0])**2 + (best_j1[1])**2 + (best_j1[2])**2) - 6371
+    angle_laser = degrees(acos((b**2 + c**2 - highest_total**2)/(2.0 * b * c)))
     print("Diameter of the sky: {}" .format(highest_total))
+    print("The angle of the laser: {} degrees" .format(angle_laser))
     return cord_list
 
 dicti = calc_loc(possible_coords(73, 37), filename)
