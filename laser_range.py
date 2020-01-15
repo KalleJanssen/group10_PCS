@@ -17,7 +17,7 @@ filename = open("data/output.txt", "r").read().splitlines()
 
 # start and finish time in year month day hour minute second
 start = datetime(2020, 1, 10, 14, 0, 0)
-finish = datetime(2020, 1, 10, 14, 30, 0)
+finish = datetime(2020, 1, 10, 16, 0, 0)
 
 name = "ISS (ZARYA)"
 
@@ -81,6 +81,9 @@ def calc_loc(dicti, filename):
                 total = np.sqrt((i1[0] - j1[0])**2 + (i1[1] - j1[1])**2 + (i1[2] - j1[2])**2)
                 if total > highest_total:
                     highest_total = total
+        if progress % 30 == 0:
+            percent_done = round(progress/len(filename)*100, 0)
+            print("{} percent done" .format(percent_done), end="\r")
     print("Diameter of the sky: {}" .format(highest_total))
     return cord_list
 
