@@ -19,7 +19,6 @@ NOTE: The in the TLE-file stated orbital angles and other complex space numbers 
 
 """
 
-
 class Satellite(object):
 	def __init__(self, TLE_l1, TLE_l2, sat_pos_obj, height, width, length, mass, cross_section):
 		self.sat_pos_obj = sat_pos_obj
