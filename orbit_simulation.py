@@ -41,10 +41,10 @@ fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
 
 col = 'blue'
-simulation_time = 7300
+simulation_time = 100
 
 
-laser = Laser(19.562170632009686 , -130.47357933714184, 1, 1, 1)
+laser = Laser(19.562170632009686 , -130.47357933714184, 1, 1, 1, 100*10**(-6), 1)
 
 
 
@@ -55,19 +55,21 @@ for i in range(simulation_time):
 
     lat, lon  = TEST.get_lat_long()
 
-    print(lat, lon)
-    print(laser.lat, laser.long)
+    #print(lat, lon)
+    #print(laser.lat, laser.long)
 
     d = laser.sat_distance(TEST)
 
-    print("Distance from laser to satellite:", d, "\n Height:", TEST.calc_height()[1])
+    #print("Distance from laser to satellite:", d, "\n Height:", TEST.calc_height()[1])
 
     ax.scatter(TEST.x, TEST.y, TEST.z, s=20, c=col, marker='.')
 
-    # if i == 7200:
-    #     print("LASER HIT")
-    #     TEST.change_mean_motion(5.0)
-    #     col = 'red'
+    if i == 60:
+        print("LASER HIT")
+        dV = laser.calc_velocity_change(TEST, 30)
+        print(dV)
+        TEST.change_mean_motion(1.0)
+        col = 'red'
 
 
 

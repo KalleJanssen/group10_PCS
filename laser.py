@@ -16,15 +16,26 @@ This class contains a Laser object
 
 """
 
-
-
 class Laser(object):
-	def __init__(self, latitude, longitude, max_power, beam_range, spot_size):
+	def __init__(self, latitude, longitude, power, beam_range, spot_size, Cm, Isp):
+		"""
+
+		:param latitude:
+		:param longitude:
+		:param power:
+		:param beam_range:
+		:param spot_size:
+		:param Cm:
+		:param Isp:
+		"""
 		self.long = longitude
 		self.lat = latitude
-		self.max_power = max_power
+		self.power = power
 		self.range = beam_range
 		self.spot_size = spot_size
+		self.Cm = Cm
+		self.current_angle = 0
+		self.Isp = Isp
 
 
 	def sat_distance(self, satellite: Satellite):
@@ -52,10 +63,22 @@ class Laser(object):
 		return d/1000
 
 
-	def calc_velocity_change(self):
-		return 0
+	def calc_velocity_change(self, satellite, duration):
 
 
+		deltaV = 0
+		for i in range(duration):
+			fluence = 3000000 # J/cm2
+			sat_mass = 10
+
+
+			Q = fluence / sat_mass
+
+
+			deltaV += self.Cm * Q
+
+
+		return deltaV
 
 
 	def hit_satellite(satellite: Satellite, duration, velocity_change):
