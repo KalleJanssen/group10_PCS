@@ -34,9 +34,20 @@ class Satellite(object):
 
 
 	def set_position(self, year, month, day, hour, minutes, sec):
+		"""
+		This function initializes a position at the given time using
+		the sgp4 propagate function.
+		The parameters below determine the time
+		:param year:
+		:param month:
+		:param day:
+		:param hour:
+		:param minutes:
+		:param sec:
+		:return: sgp4 position-objectof satellite
+		"""
 
 		self.orbital_time = (year, month, day, hour, minutes, sec)
-
 
 		position = self.sat_pos_obj.propagate(year, month, day, hour, minutes, sec)[0] 
 		self.x = position[0]
@@ -46,11 +57,23 @@ class Satellite(object):
 		return position
 
 	def calc_height(self):
+		"""
+		This function calculates the height of a satellite above sea level
+		using its x, y, z coordinates.
+		:return: height from center to earth, heaft from surface of the earth
+		"""
+
 		height_from_center = np.sqrt(self.x ** 2 + self.y ** 2 + self.z ** 2)
 		height_from_surface = height_from_center-6371
+
 		return height_from_center, height_from_surface
 
 	def calc_velocity(self):
+		"""
+		This function calculates the orbital velocity of a satellite
+		using its x, y, z velocities.
+		:return: the satellites orbital velocity
+		"""
 
 		# get position
 		year, month, day, hour, minutes, sec = self.orbital_time
@@ -63,7 +86,10 @@ class Satellite(object):
 
 	def get_lat_long(self, name="SAT"):
 		"""
-		Returns latitude and longitude of the satellite
+		This function returns the perpendicular point of satellite
+		projected on earth's surface.
+		:param name: can be ignored, not needed
+		:return: projected longitude and latitude on Earth's surface
 		"""
 		tle_rec = ephem.readtle(name, self.l1, self.l2)
 		year, month, day, hour, minutes, sec = self.orbital_time
@@ -76,6 +102,11 @@ class Satellite(object):
 		return lati, longi
 
 	def move_in_orbit(self, seconds):
+		"""
+		This function move the satellite in its orbit
+		:param seconds: how many second the satellite should move
+		:return: the satellite's new space/orbit position
+		"""
 
 		# change orbital time attribute
 		year, month, day, hour, minutes, sec = self.orbital_time
@@ -100,12 +131,18 @@ class Satellite(object):
 		return new_position
 
 
-	def change_mean_motion(self, x):
-
+	def change_mean_motion(self, dV):
+		"""
+		This function changes the satellites mean motion, which
+		influences it's orbital velocity. The velocity change
+		results in a new orbit for the satellite
+		:param dV: change of mean motion
+		:return: new satellite-position object of the satellite
+		"""
 
 		# add x change to mean motion in correct format
 		mean_motion = float(self.l2[52:63])
-		mean_motion = '{:.8f}'.format(mean_motion + x)
+		mean_motion = '{:.8f}'.format(mean_motion + dV)
 		mean_motion = list(mean_motion)
 
 

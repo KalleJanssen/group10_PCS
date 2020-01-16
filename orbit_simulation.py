@@ -34,7 +34,7 @@ def create_sat_list(sat_pos_objs):
 # SIMULATION
 satellites = create_sat_list(sat_pos_objs)
 
-TEST = satellites[0]
+TEST = satellites[1]
 TEST.set_position(2019, 12, 12, 12, 12, 12)
 
 fig = plt.figure()
@@ -44,7 +44,7 @@ col = 'blue'
 simulation_time = 7300
 
 
-laser = Laser(21.01650402896028, 142.76481893728163, 1, 1, 1)
+laser = Laser(19.562170632009686 , -130.47357933714184, 1, 1, 1)
 
 
 

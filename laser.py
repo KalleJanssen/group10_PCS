@@ -28,18 +28,24 @@ class Laser(object):
 
 
 	def sat_distance(self, satellite: Satellite):
+		"""
+		This function uses ephem to calculate the distance between the laser
+		and a satellite object
+		:param satellite:
+		:return: distance between laser and satellite object in kilometers
+		"""
 
+		# create laser as observer
 		laser = ephem.Observer()
 		laser.lon = str(self.long)
 		laser.lat = str(self.lat)
-		laser.elevation = 0
+		laser.elevation = -4338
 		year, month, day, hour, minutes, sec = satellite.orbital_time
 		laser.date = datetime(year, month, day, hour, minutes, sec)
 
-
+		# calculate distance between observer and satellite
 		tle_rec = ephem.readtle("SAT", satellite.l1, satellite.l2)
 		tle_rec.compute(laser)
-
 		d = tle_rec.range
 
 
