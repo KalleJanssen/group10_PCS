@@ -1,13 +1,10 @@
-import matplotlib.pyplot as plt
-import numpy
-import time
+import ephem
 from sgp4.earth_gravity import wgs72
 from sgp4.io import twoline2rv
-from datetime import datetime, timedelta
-from mpl_toolkits import mplot3d
 import numpy as np
-import matplotlib.pyplot as plt
-
+from ephem import degree
+from datetime import datetime, timedelta
+from sgp4.io import fix_checksum
 
 
 """
@@ -64,11 +61,32 @@ class Satellite(object):
 
 		return velocity
 
+	def get_lat_long(self, name="SAT"):
+		"""
+		Returns latitude and longitude of the satellite
+		"""
+		tle_rec = ephem.readtle(name, self.l1, self.l2)
+		year, month, day, hour, minutes, sec = self.orbital_time
+		time = datetime(year, month, day, hour, minutes, sec)
+		tle_rec.compute(time)
+		lati = (tle_rec.sublat / degree)
+		longi = (tle_rec.sublong / degree)
+
+
+		return lati, longi
+
 	def move_in_orbit(self, seconds):
 
 		# change orbital time attribute
 		year, month, day, hour, minutes, sec = self.orbital_time
-		new_orbital_time = (year, month, day, hour, minutes, sec+seconds)
+
+		dt1 = datetime(year, month, day, hour, minutes, sec)
+
+		dt2 = dt1 + timedelta(seconds=seconds)
+
+
+
+		new_orbital_time = (dt2.year, dt2.month, dt2.day, dt2.hour, dt2.minute, dt2.second)
 		self.orbital_time = new_orbital_time
 
 		# calculate new position and set attributes
@@ -96,7 +114,7 @@ class Satellite(object):
 		l2_listed[52:63] = mean_motion
 
 
-		self.l2 = ''.join(map(str, l2_listed))
+		self.l2 = fix_checksum(''.join(map(str, l2_listed)))
 
 		prev_pos_obj = self.sat_pos_obj
 		# object orbit has changed, create new sat_pos_obj

@@ -3,10 +3,10 @@ from sat_simulation import get_list_of_sat_pos_objs
 from laser import Laser
 import time
 import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib.pyplot as plt
 import numpy
 import time
+import difflib
+from sgp4.io import twoline2rv, verify_checksum, fix_checksum
 from sgp4.earth_gravity import wgs72
 from sgp4.io import twoline2rv
 from datetime import datetime, timedelta
@@ -14,9 +14,7 @@ from mpl_toolkits import mplot3d
 import numpy as np
 import matplotlib.pyplot as plt
 
-
-
-sat_pos_objs = get_list_of_sat_pos_objs(2000, "data/output.txt")
+sat_pos_objs = get_list_of_sat_pos_objs(20, "data/output.txt")
 
 
 def create_sat_list(sat_pos_objs):
@@ -43,30 +41,40 @@ fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
 
 col = 'blue'
-simulation_time = 2000
+simulation_time = 7300
+
+
+laser = Laser(21.01650402896028, 142.76481893728163, 1, 1, 1)
+
 
 
 for i in range(simulation_time):
-
-
     TEST.move_in_orbit(1)
     velocity = TEST.calc_velocity()
-    height_center, height_surface = TEST.calc_height()
+    height_surface = TEST.calc_height()
 
-    print("Height from Earth's center:", height_center)
-    print("Height from Earth's surface:", height_surface)
+    lat, lon  = TEST.get_lat_long()
+
+    print(lat, lon)
+    print(laser.lat, laser.long)
+
+    d = laser.sat_distance(TEST)
+
+    print("Distance from laser to satellite:", d, "\n Height:", TEST.calc_height()[1])
 
     ax.scatter(TEST.x, TEST.y, TEST.z, s=20, c=col, marker='.')
 
-    if i == 700:
-        print("LASER HIT")
-        TEST.change_mean_motion(5.0)
-        col = 'red'
+    # if i == 7200:
+    #     print("LASER HIT")
+    #     TEST.change_mean_motion(5.0)
+    #     col = 'red'
 
 
 
-
+print("\nCreating figure...")
 plt.savefig('plots/sim.png')
+print("Figure saved in plots/sim.png!")
+
 
 
 

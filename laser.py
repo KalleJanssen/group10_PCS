@@ -8,8 +8,8 @@ from datetime import datetime, timedelta
 from mpl_toolkits import mplot3d
 import numpy as np
 import matplotlib.pyplot as plt
-
-
+import geopy.distance
+import ephem
 
 """
 This class contains a Laser object
@@ -19,18 +19,31 @@ This class contains a Laser object
 
 
 class Laser(object):
-	def __init__(self, longitude, latitude, power, beam_range, spot_size):
-		self.longitude = longitude
-		self.latitude = latitude
-		self.power = power
+	def __init__(self, latitude, longitude, max_power, beam_range, spot_size):
+		self.long = longitude
+		self.lat = latitude
+		self.max_power = max_power
 		self.range = beam_range
 		self.spot_size = spot_size
 
 
 	def sat_distance(self, satellite: Satellite):
 
+		laser = ephem.Observer()
+		laser.lon = str(self.long)
+		laser.lat = str(self.lat)
+		laser.elevation = 0
+		year, month, day, hour, minutes, sec = satellite.orbital_time
+		laser.date = datetime(year, month, day, hour, minutes, sec)
 
-		return 0
+
+		tle_rec = ephem.readtle("SAT", satellite.l1, satellite.l2)
+		tle_rec.compute(laser)
+
+		d = tle_rec.range
+
+
+		return d/1000
 
 
 	def calc_velocity_change(self):
@@ -47,7 +60,7 @@ class Laser(object):
 			print(satellite.get_position_and_velocity[1])
 
 
-		return satellite_object
+		return satellite
 
 
 		
