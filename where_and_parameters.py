@@ -65,7 +65,6 @@ def calc_loc(dicti, filename):
         # coordinates for those seconds
         for i in hourly_it(start, finish):
             lati, longi = lati_longi(l1, l2, i, 5)
-
             if (lati, longi) not in listi:
                 listi.append((lati, longi))
 
@@ -89,6 +88,8 @@ def calc_angle(dicti, filename, place):
     """
     progress = 0
     highest_total = 0
+    maximum_distance = 0
+    minimum_distance = 10000
 
     # Goes through all satellites
     for line in filename:
@@ -105,7 +106,6 @@ def calc_angle(dicti, filename, place):
         # coordinates for those seconds
         for i in hourly_it(start, finish):
             lati, longi = lati_longi(l1, l2, i, 5)
-
             # Location of laser
             if (lati, longi) == place:
                 satellite = twoline2rv(l1, l2, wgs72)
@@ -114,6 +114,26 @@ def calc_angle(dicti, filename, place):
                 xyz, velocity = satellite.propagate(time_list[0], time_list[1],
                     time_list[2], time_list[3], time_list[4], time_list[5])
                 cord_list.append(xyz)
+
+                laser = ephem.Observer()
+                tle_rec = ephem.readtle("name", l1, l2)
+                tle_rec.compute(i)
+                laser.lon = str(tle_rec.sublong)
+                laser.lat = str(tle_rec.sublat)
+                laser.elevation = 0
+                laser.date = datetime(time_list[0], time_list[1],
+                    time_list[2], time_list[3], time_list[4], time_list[5])
+
+
+                tle_rec = ephem.readtle("SAT", l1, l2)
+                tle_rec.compute(laser)
+
+                d = tle_rec.range / 1000
+
+                if d > maximum_distance:
+                    maximum_distance = d
+                if d < minimum_distance:
+                    minimum_distance = d
 
         # Kilometers between the orbit of a satellite
         for i1 in cord_list:
@@ -125,7 +145,7 @@ def calc_angle(dicti, filename, place):
                     best_j1 = j1
         if progress % 30 == 0:
             percent_done = int(progress/len(filename)*100)
-            print("{} percent done" .format(percent_done), end="\r")
+            print("{} percent done second half" .format(percent_done), end="\r")
 
     # Calculates the angle that the laser should be able to reach
     # takes the maximum distance between two satellites while they are both in
@@ -134,9 +154,7 @@ def calc_angle(dicti, filename, place):
     b = np.sqrt((best_i1[0])**2 + (best_i1[1])**2 + (best_i1[2])**2) - 6371
     c = np.sqrt((best_j1[0])**2 + (best_j1[1])**2 + (best_j1[2])**2) - 6371
     angle_laser = degrees(acos((b**2 + c**2 - highest_total**2)/(2.0 * b * c)))
-    print("Diameter of the sky: {} km" .format(round(highest_total, 1)))
-    print("The angle of the laser: {} degrees" .format(round(angle_laser, 1)))
-    return cord_list
+    return highest_total, angle_laser, minimum_distance, maximum_distance
 
 filename = open("data/output.txt", "r").read().splitlines()
 
@@ -144,10 +162,15 @@ filename = open("data/output.txt", "r").read().splitlines()
 start = datetime(2020, 1, 10, 14, 0, 0)
 finish = datetime(2020, 1, 10, 16, 0, 0)
 
-print("Takes about 10 minutes, 5 minutes per part")
+print("Takes about 5 minutes")
 
 dicti, place = calc_loc(possible_coords(5), filename)
 
 print("Best place: {} (lati, longi) \nWith {} satellites" .format(place, dicti[place]))
 
-dicti = calc_angle(possible_coords(5), filename, place)
+h, a, mini, maxi = calc_angle(possible_coords(5), filename, place)
+
+print("Diameter of the sky: {} km" .format(round(h, 1)))
+print("The angle of the laser: {} degrees" .format(round(a, 1)))
+print("Closest satellite: {} km" .format(round(mini, 1)))
+print("Furthest satellite: {} km" .format(round(maxi, 1)))
