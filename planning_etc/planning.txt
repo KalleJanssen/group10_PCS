@@ -11,7 +11,7 @@ Week 2
 4. Laser beam spot size/range implementeren
 5. Laser beam  object/model itself maken en programmeren volgens artikelen/ORION
 6. Sateliet-metadata vinden en koppelen aan Satellite-object
- 
+
 Week 3/4
 7. Visualiseren simulatie
 8. Poster maken
@@ -24,3 +24,17 @@ Renee: 1, 2
 Kalle: 3, 4
 Bart: 5, 6
 
+How to calculate the best place for the laser:
+First divide the Earth into equal sectors from the latitude and longitude coordinates,
+in this project the sectors were rounded to the nearest 5 thus for example the (80, 55) sector would
+contain all the latitude coordinates 77.5 to 82.5 and all  the longitude coordinates 52.5 to 57.5.
+After this, the orbit of one satellite during a full revolution around the Earth would be projected
+onto the Earth using the latitude and longitude coordinates. Counting how many satellites pass
+each sector and then choosing the sector where the most satellites passed.
+
+How to calculate the angle of the laser:
+When a satellite is in the sector, the locations of that satellite in the lower earth orbit
+are saved as xyz coordinates and then the distance is computed. The maximum distance of two
+points from the same satellite is the radius that the laser needs to be able to reach at
+the height of points. From these three lengths the law of cosines can be used to calculate
+the angle of the laser.
