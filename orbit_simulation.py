@@ -14,7 +14,7 @@ from mpl_toolkits import mplot3d
 import numpy as np
 import matplotlib.pyplot as plt
 
-sat_pos_objs = get_list_of_sat_pos_objs(2000, "data/output.txt")
+sat_pos_objs = get_list_of_sat_pos_objs(20, "data/output.txt")
 
 
 def create_sat_list(sat_pos_objs):
@@ -41,25 +41,22 @@ fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
 
 col = 'blue'
-simulation_time = 1400
+simulation_time = 7300
 
 
-laser = Laser(20.591099356884378, 172.64544855598336, 1, 1, 1)
+laser = Laser(21.01650402896028, 142.76481893728163, 1, 1, 1)
 
 
 
 for i in range(simulation_time):
-
-
     TEST.move_in_orbit(1)
     velocity = TEST.calc_velocity()
     height_surface = TEST.calc_height()
 
-    lat, lon = TEST.get_lat_long()
+    lat, lon  = TEST.get_lat_long()
 
     print(lat, lon)
-
-
+    print(laser.lat, laser.long)
 
     d = laser.sat_distance(TEST)
 
@@ -67,19 +64,17 @@ for i in range(simulation_time):
 
     ax.scatter(TEST.x, TEST.y, TEST.z, s=20, c=col, marker='.')
 
-    if d < 700:
-        print("LASER HIT")
-        TEST.change_mean_motion(3)
-        col = 'red'
-
-
-
+    # if i == 7200:
+    #     print("LASER HIT")
+    #     TEST.change_mean_motion(5.0)
+    #     col = 'red'
 
 
 
 print("\nCreating figure...")
-print("Figure saved in plots/sim.png!")
 plt.savefig('plots/sim.png')
+print("Figure saved in plots/sim.png!")
+
 
 
 

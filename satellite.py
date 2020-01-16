@@ -71,6 +71,8 @@ class Satellite(object):
 		tle_rec.compute(time)
 		lati = (tle_rec.sublat / degree)
 		longi = (tle_rec.sublong / degree)
+
+
 		return lati, longi
 
 	def move_in_orbit(self, seconds):

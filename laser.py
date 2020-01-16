@@ -9,7 +9,7 @@ from mpl_toolkits import mplot3d
 import numpy as np
 import matplotlib.pyplot as plt
 import geopy.distance
-
+import ephem
 
 """
 This class contains a Laser object
@@ -28,15 +28,22 @@ class Laser(object):
 
 
 	def sat_distance(self, satellite: Satellite):
-		lat_sat, long_sat = satellite.get_lat_long()
-		coords_sat = (lat_sat, long_sat)
-		coords_laser = (self.lat, self.long)
-		surface_d = geopy.distance.vincenty(coords_sat, coords_laser).km
-		sat_height = satellite.calc_height()[1]
 
-		d = np.sqrt(surface_d**2 + sat_height**2)
+		laser = ephem.Observer()
+		laser.lon = str(self.long)
+		laser.lat = str(self.lat)
+		laser.elevation = 0
+		year, month, day, hour, minutes, sec = satellite.orbital_time
+		laser.date = datetime(year, month, day, hour, minutes, sec)
 
-		return d
+
+		tle_rec = ephem.readtle("SAT", satellite.l1, satellite.l2)
+		tle_rec.compute(laser)
+
+		d = tle_rec.range
+
+
+		return d/1000
 
 
 	def calc_velocity_change(self):
@@ -53,7 +60,7 @@ class Laser(object):
 			print(satellite.get_position_and_velocity[1])
 
 
-		return satellite_object
+		return satellite
 
 
 		
