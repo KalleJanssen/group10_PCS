@@ -15,6 +15,38 @@ from math import sin, cos, sqrt, atan2, radians, acos, degrees
 from best_position import *
 import operator
 
+def decdeg2dms(dd):
+    """
+    Transforms decimal coordinates to dms format
+    """
+    is_positive = dd >= 0
+    dd = abs(dd)
+    minutes,seconds = divmod(dd*3600,60)
+    degrees1,minutes = divmod(minutes,60)
+    degrees1 = degrees1 if is_positive else -degrees1
+    return str(str(degrees1) + ':' + str(minutes) + ':' + str(seconds))
+
+def height_sat(l1, l2, time_list, i, lati, longi):
+    """
+    Returns distance to a specific coordinate
+    """
+    laser = ephem.Observer()
+    tle_rec = ephem.readtle("name", l1, l2)
+    tle_rec.compute(i)
+    laser.lon = decdeg2dms(longi)
+    laser.lat = decdeg2dms(lati)
+    laser.elevation = 0
+    laser.date = datetime(time_list[0], time_list[1],
+        time_list[2], time_list[3], time_list[4], time_list[5])
+
+
+    tle_rec = ephem.readtle("SAT", l1, l2)
+    tle_rec.compute(laser)
+
+    d = tle_rec.range / 1000
+
+    return d
+
 def lati_longi(l1, l2, time1, rounding=0, name="ISS (ZARYA)"):
     """
     Returns latitude and longitude of a satellite, can be rounded to 1, 2 or 5
@@ -115,20 +147,7 @@ def calc_angle(dicti, filename, place):
                     time_list[2], time_list[3], time_list[4], time_list[5])
                 cord_list.append(xyz)
 
-                laser = ephem.Observer()
-                tle_rec = ephem.readtle("name", l1, l2)
-                tle_rec.compute(i)
-                laser.lon = str(tle_rec.sublong)
-                laser.lat = str(tle_rec.sublat)
-                laser.elevation = 0
-                laser.date = datetime(time_list[0], time_list[1],
-                    time_list[2], time_list[3], time_list[4], time_list[5])
-
-
-                tle_rec = ephem.readtle("SAT", l1, l2)
-                tle_rec.compute(laser)
-
-                d = tle_rec.range / 1000
+                d = height_sat(l1, l2, time_list, i, lati, longi)
 
                 if d > maximum_distance:
                     maximum_distance = d
@@ -164,10 +183,11 @@ finish = datetime(2020, 1, 10, 16, 0, 0)
 
 print("Takes about 5 minutes")
 
-dicti, place = calc_loc(possible_coords(5), filename)
+# dicti, place = calc_loc(possible_coords(5), filename)
+#
+# print("Best place: {} (lati, longi) \nWith {} satellites" .format(place, dicti[place]))
 
-print("Best place: {} (lati, longi) \nWith {} satellites" .format(place, dicti[place]))
-
+place = (80, -15)
 h, a, mini, maxi = calc_angle(possible_coords(5), filename, place)
 
 print("Diameter of the sky: {} km" .format(round(h, 1)))
