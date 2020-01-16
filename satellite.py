@@ -4,14 +4,14 @@ from sgp4.io import twoline2rv
 import numpy as np
 from ephem import degree
 from datetime import datetime, timedelta
-from sgp4.io import fix_checksum
+from checksum import fix_checksum
 
 
 """
 This Class contains a Satellite object, with its positions and TLE data
 
 
-To create the object, first use the get_satellite_from_TLE or 
+To create the object, first use the get_satellite_from_TLE or
 get_list_of_sat_pos_objs function to get the sat_pos_obj
 
 
@@ -49,7 +49,7 @@ class Satellite(object):
 
 		self.orbital_time = (year, month, day, hour, minutes, sec)
 
-		position = self.sat_pos_obj.propagate(year, month, day, hour, minutes, sec)[0] 
+		position = self.sat_pos_obj.propagate(year, month, day, hour, minutes, sec)[0]
 		self.x = position[0]
 		self.y = position[1]
 		self.z = position[2]
@@ -159,21 +159,3 @@ class Satellite(object):
 		self.sat_pos_obj = twoline2rv(self.l1, self.l2, wgs72)
 
 		return self.sat_pos_obj
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

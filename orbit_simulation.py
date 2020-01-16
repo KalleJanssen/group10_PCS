@@ -6,7 +6,7 @@ import numpy as np
 import numpy
 import time
 import difflib
-from sgp4.io import twoline2rv, verify_checksum, fix_checksum
+from checksum import verify_checksum, fix_checksum
 from sgp4.earth_gravity import wgs72
 from sgp4.io import twoline2rv
 from datetime import datetime, timedelta
@@ -15,7 +15,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 sat_pos_objs = get_list_of_sat_pos_objs(20, "data/output.txt")
-
+print(sat_pos_objs)
 
 def create_sat_list(sat_pos_objs):
     sat_list = []
@@ -74,8 +74,3 @@ for i in range(simulation_time):
 print("\nCreating figure...")
 plt.savefig('plots/sim.png')
 print("Figure saved in plots/sim.png!")
-
-
-
-
-
