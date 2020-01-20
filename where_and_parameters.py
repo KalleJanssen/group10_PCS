@@ -26,7 +26,7 @@ def decdeg2dms(dd):
     degrees1 = degrees1 if is_positive else -degrees1
     return str(str(degrees1) + ':' + str(minutes) + ':' + str(seconds))
 
-def height_sat(l1, l2, time_list, i, lati, longi):
+def height_sat(l1, l2, i, lati, longi):
     """
     Returns distance to a specific coordinate
     """
@@ -36,8 +36,7 @@ def height_sat(l1, l2, time_list, i, lati, longi):
     laser.lon = decdeg2dms(longi)
     laser.lat = decdeg2dms(lati)
     laser.elevation = 0
-    laser.date = datetime(time_list[0], time_list[1],
-        time_list[2], time_list[3], time_list[4], time_list[5])
+    laser.date = i
 
 
     tle_rec = ephem.readtle("SAT", l1, l2)
@@ -147,7 +146,7 @@ def calc_angle(dicti, filename, place):
                     time_list[2], time_list[3], time_list[4], time_list[5])
                 cord_list.append(xyz)
 
-                d = height_sat(l1, l2, time_list, i, lati, longi)
+                d = height_sat(l1, l2, i, lati, longi)
 
                 if d > maximum_distance:
                     maximum_distance = d
@@ -175,22 +174,23 @@ def calc_angle(dicti, filename, place):
     angle_laser = degrees(acos((b**2 + c**2 - highest_total**2)/(2.0 * b * c)))
     return highest_total, angle_laser, minimum_distance, maximum_distance
 
-filename = open("data/output.txt", "r").read().splitlines()
+if __name__ == '__main__':
+    filename = open("data/output.txt", "r").read().splitlines()
 
-# start and finish time in year month day hour minute second
-start = datetime(2020, 1, 10, 14, 0, 0)
-finish = datetime(2020, 1, 10, 16, 0, 0)
+    # start and finish time in year month day hour minute second
+    start = datetime(2020, 1, 10, 14, 0, 0)
+    finish = datetime(2020, 1, 10, 16, 0, 0)
 
-print("Takes about 5 minutes")
+    print("Takes about 5 minutes")
 
-# dicti, place = calc_loc(possible_coords(5), filename)
-#
-# print("Best place: {} (lati, longi) \nWith {} satellites" .format(place, dicti[place]))
+    dicti, place = calc_loc(possible_coords(5), filename)
+    #
+    print("Best place: {} (lati, longi) \nWith {} satellites" .format(place, dicti[place]))
 
-place = (80, -15)
-h, a, mini, maxi = calc_angle(possible_coords(5), filename, place)
+    #place = (80, -15)
+    h, a, mini, maxi = calc_angle(possible_coords(5), filename, place)
 
-print("Diameter of the sky: {} km" .format(round(h, 1)))
-print("The angle of the laser: {} degrees" .format(round(a, 1)))
-print("Closest satellite: {} km" .format(round(mini, 1)))
-print("Furthest satellite: {} km" .format(round(maxi, 1)))
+    print("Diameter of the sky: {} km" .format(round(h, 1)))
+    print("The angle of the laser: {} degrees" .format(round(a, 1)))
+    print("Closest satellite: {} km" .format(round(mini, 1)))
+    print("Furthest satellite: {} km" .format(round(maxi, 1)))
