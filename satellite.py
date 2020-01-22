@@ -158,3 +158,27 @@ class Satellite(object):
 		self.sat_pos_obj = twoline2rv(self.l1, self.l2, wgs72)
 
 		return self.sat_pos_obj
+
+	def height_sat(self, lati, longi):
+		"""
+        Returns distance from satellite object to a specific coordinate
+        """
+
+		year, month, day, hour, minutes, sec = self.orbital_time
+		time = datetime(year, month, day, hour, minutes, sec)
+
+
+		laser = ephem.Observer()
+		tle_rec = ephem.readtle("name", self.l1, self.l2)
+		tle_rec.compute(time)
+		laser.lon = decdeg2dms(longi)
+		laser.lat = decdeg2dms(lati)
+		laser.elevation = 0
+		laser.date = time
+
+		tle_rec = ephem.readtle("SAT", self.l1, self.l2)
+		tle_rec.compute(laser)
+
+		d = tle_rec.range / 1000
+
+		return d
