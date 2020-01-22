@@ -6,7 +6,7 @@ def within_bounds(tuple_xyz):
 	returns False if a coordinate is clearly outside of lower earth orbit
 	"""
 	for coord in tuple_xyz:
-		if coord < -8000 or coord > 8000:
+		if coord < -9000 or coord > 9000:
 			return False
 	return True
 
