@@ -14,7 +14,7 @@ def hourly_it(start, finish):
     while finish > start:
         start = start + timedelta(seconds=1)
         yield start
-
+filename = open("data/output.txt", "r").read().splitlines()
 
 ### SETUP ELEMENTS FOR GRAPHING, SIMULATION, VISUALIZATION, TIMING
 # ------------------------------------------------------------------------
@@ -29,7 +29,7 @@ scene.background = color.black
 earth = sphere(radius = 6.378e6, texture=textures.earth)
 d = {}
 e = {}
-for i in range(3009):
+for i in range(len(filename)//2):
     e["trial{}" .format(i)] = curve(color = color.yellow, radius = 5e3)
     d["satellite{}" .format(i)] = sphere(radius = 5e4, color = color.green)
 
@@ -37,8 +37,7 @@ for i in range(3009):
 ### CALCULATION LOOP; perform physics updates and drawing
 # ------------------------------------------------------------------------------------
 start = datetime(2020, 1, 10, 14, 0, 0)
-finish = datetime(2020, 1, 10, 16, 0, 0)
-filename = open("data/output.txt", "r").read().splitlines()
+finish = datetime(2020, 1, 17, 14, 0, 0)
 scene.autoscale = False
 plot1 = 0
 total = 0
@@ -63,6 +62,9 @@ for i in hourly_it(start, finish):
 
         if (lati, longi) == (80, -15):
             if line not in list_line:
+                total += 1
+                satellite = d["satellite{}" .format(index)]
+                satellite.visible = False
                 e["trial{}" .format(index)] = curve(color = color.red, radius = 5e3)
                 d["satellite{}" .format(index)] = sphere(radius = 5e4, color = color.red)
                 list_line.append(line)
@@ -78,5 +80,6 @@ for i in hourly_it(start, finish):
         trial = e["trial{}" .format(index)]
         trial.append(pos = satellite.pos)
 
-        if index == 3003:
+        if index == 1:
+            scene.caption = "\n {} out of {} satellites hit by the laser" .format(total, len(filename)//2)
             break

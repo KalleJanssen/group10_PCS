@@ -68,8 +68,8 @@ def possible_coords(rounding):
     should be 1, 2, 5 or 10
     """
     dicti = {}
-    for longi in np.linspace(-180, 180, 360/rounding + 1):
-        for lati in np.linspace(-90, 90, 180/rounding + 1):
+    for longi in np.linspace(-180, 180, 360//rounding + 1):
+        for lati in np.linspace(-90, 90, 180//rounding + 1):
             calc = (lati, longi)
             dicti[calc] = 0
     return dicti
