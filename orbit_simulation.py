@@ -15,7 +15,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 sat_pos_objs = get_list_of_sat_pos_objs(20, "data/output.txt")
-print(sat_pos_objs)
+
 
 def create_sat_list(sat_pos_objs):
     sat_list = []
@@ -34,42 +34,45 @@ def create_sat_list(sat_pos_objs):
 # SIMULATION
 satellites = create_sat_list(sat_pos_objs)
 
-TEST = satellites[1]
+TEST = satellites[0]
 TEST.set_position(2019, 12, 12, 12, 12, 12)
 
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
 
 col = 'blue'
-simulation_time = 2000
-
-
-laser = Laser(19.562170632009686 , -130.47357933714184, 1, 1, 1, 100*10**(-6), 1)
+simulation_time = 15000
 
 
 
+# laser power parameters
+Cm  = 400*10**(-6) # 400 N/MW (optimum according to article https://www.psi.ch/sites/default/files/import/lmx-interfaces/BooksEN/Claude_JPP_2010-1.pdf)
+Fluence = 150000
+
+laser = Laser(19.562170632009686, -130.47357933714184, 1, Cm, Fluence)
+
+# simulation to configure laser
+heights = []
 for i in range(simulation_time):
     TEST.move_in_orbit(1)
-    velocity = TEST.calc_velocity()
-    height_surface = TEST.calc_height()
 
-    lat, lon  = TEST.get_lat_long()
 
-    #print(lat, lon)
-    #print(laser.lat, laser.long)
-
-    d = laser.sat_distance(TEST)
-
-    print("Distance from laser to satellite:", d, "\n Height:", TEST.calc_height()[1])
+    heights.append(TEST.calc_height()[1])
 
     ax.scatter(TEST.x, TEST.y, TEST.z, s=20, c=col, marker='.')
 
-    if i == 60:
+    if i == 7300:
         print("LASER HIT")
-        dV = laser.calc_velocity_change(TEST, 30)
-        print(dV)
-        TEST.change_mean_motion(1.0)
+
+        print(TEST.calc_velocity())
+
+        newV = laser.hit_satellite(TEST, 60)
+        print("new velocity = ", newV)
+
+
         col = 'red'
+
+
 
 
 

@@ -17,25 +17,22 @@ This class contains a Laser object
 """
 
 class Laser(object):
-	def __init__(self, latitude, longitude, power, beam_range, spot_size, Cm, Isp):
+	def __init__(self, latitude, longitude, range, Cm, fluence):
 		"""
 
-		:param latitude:
-		:param longitude:
-		:param power:
-		:param beam_range:
-		:param spot_size:
-		:param Cm:
-		:param Isp:
+		:param latitude: position
+		:param longitude: position
+		:param range: 'danger area' for satellite
+		:param Cm: is defined as the ratio of impulse density in N/W
+		:param fluence: optical energy in J/cm2
 		"""
 		self.long = longitude
 		self.lat = latitude
-		self.power = power
-		self.range = beam_range
-		self.spot_size = spot_size
+		self.range =range
+		self.fluence = fluence
 		self.Cm = Cm
-		self.current_angle = 0
-		self.Isp = Isp
+
+
 
 
 	def sat_distance(self, satellite: Satellite):
@@ -63,33 +60,45 @@ class Laser(object):
 		return d/1000
 
 
-	def calc_velocity_change(self, satellite, duration):
+	def calc_velocity_change(self, satellite: Satellite, duration):
 
-
+		# simplified model
+		# lasering satellite for a specific duration
 		deltaV = 0
 		for i in range(duration):
-			fluence = 3000000 # J/cm2
+
 			sat_mass = 10
 
 
-			Q = fluence / sat_mass
+			Q = self.fluence / sat_mass
 
 
 			deltaV += self.Cm * Q
 
+		# convert m/s to rpm (revolutions per minute)
+		r = satellite.calc_height()[0] * 1000
 
-		return deltaV
+		RPM = deltaV / (r * 0.10472)
 
-
-	def hit_satellite(satellite: Satellite, duration, velocity_change):
-
-		for i in range(duration):
-			satellite.change_mean_motion(0.1)
-
-			print(satellite.get_position_and_velocity[1])
+		# convert RPM to relovutions per day to change mean motion
+		deltaRPD = RPM * 60 * 24
 
 
-		return satellite
+		return deltaRPD, deltaV
+
+
+	def hit_satellite(self, satellite: Satellite, duration):
+
+
+		deltaRPD = self.calc_velocity_change(satellite, duration)[0]
+		print("rpd change;", deltaRPD)
+		satellite.change_mean_motion(deltaRPD)
+
+
+
+
+
+		return satellite.calc_velocity()
 
 
 		
