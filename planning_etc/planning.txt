@@ -5,22 +5,23 @@ Grove planning
 
 
 Week 2
-1. Uitzoeken hoe de TLE data aangepast worden, wat betekenen de waardes in de kolommen?
-2. Welke waardes moeten er worden veranderd/zijn afhankelijk van de baan en snelheid van een satelliet?
-3. Uitzoeken hoe we de orbit coordinaten kunnen mappen naar aarde-coordinaten (lengte/breedte -graden)
-4. Laser beam spot size/range implementeren
-5. Laser beam  object/model itself maken en programmeren volgens artikelen/ORION
-6. Sateliet-metadata vinden en koppelen aan Satellite-object
+1. Uitzoeken hoe de TLE data aangepast worden, wat betekenen de waardes in de kolommen? Klaar
+2. Welke waardes moeten er worden veranderd/zijn afhankelijk van de baan en snelheid van een satelliet? Klaar
+3. Uitzoeken hoe we de orbit coordinaten kunnen mappen naar aarde-coordinaten (lengte/breedte -graden) Klaar
+4. Laser beam spot size/range implementeren Klaar
+5. Laser beam  object/model itself maken en programmeren volgens artikelen/ORION Klaar
+6. Sateliet-metadata vinden en koppelen aan Satellite-object Kan niet
 
 Week 3/4
-7. Visualiseren simulatie
+7. Visualiseren simulatie Bijna
 8. Poster maken
 9. Report maken
+10. Resultaten, hoeveel satellieten zijn weg
+11. Code omzetten naar objecten
+12. Code netjes maken
 
 
 Wie doet wat? (voor week 2)
-
-Renee: 1, 2
 Kalle: 3, 4
 Bart: 5, 6
 
