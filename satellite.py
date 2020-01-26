@@ -62,6 +62,7 @@ class Satellite(object):
 		:return: height from center to earth, heaft from surface of the earth
 		"""
 
+		print(self.x, self.y, self.z)
 		height_from_center = np.sqrt(self.x ** 2 + self.y ** 2 + self.z ** 2)
 		height_from_surface = height_from_center-6371
 

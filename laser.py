@@ -10,6 +10,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import geopy.distance
 import ephem
+from copy import deepcopy
 
 """
 This class contains a Laser object
@@ -78,6 +79,9 @@ class Laser(object):
 		# convert m/s to rpm (revolutions per minute)
 		r = satellite.calc_height()[0] * 1000
 
+
+
+
 		RPM = deltaV / (r * 0.10472)
 
 		# convert RPM to relovutions per day to change mean motion
@@ -89,6 +93,7 @@ class Laser(object):
 
 	def hit_satellite(self, satellite: Satellite, duration):
 
+		prev_SAT = deepcopy(satellite)
 
 		deltaRPD = self.calc_velocity_change(satellite, duration)[0]
 		print("rpd change;", deltaRPD)
@@ -98,7 +103,7 @@ class Laser(object):
 
 
 
-		return satellite.calc_velocity()
+		return prev_SAT
 
 
 		
