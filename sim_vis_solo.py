@@ -70,7 +70,7 @@ laser = Laser(80, -15, spot=spot, Cm=Cm, fluence=Fluence)
 
 
 for i in range(simulation_time):
-    rate(1000)
+    rate(500)
 
     if SAT1.already_crossed == False:
         lati, longi = SAT1.get_lat_long(rounding=5)
@@ -103,8 +103,6 @@ for i in range(simulation_time):
         prev_SAT.move_in_orbit(1)
         satellite_prev.pos = vector(prev_SAT.y * 1000, prev_SAT.z * 1000, prev_SAT.x * 1000)
         trail_prev.append(pos=satellite_prev.pos)
-
-
         SAT1.move_in_orbit(1)
         satellite_new.pos = vector(SAT1.y * 1000, SAT1.z * 1000, SAT1.x * 1000)
         trail_new.append(pos=satellite_new.pos)
