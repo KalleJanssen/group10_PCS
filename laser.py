@@ -17,9 +17,8 @@ This class contains a Laser object
 """
 
 class Laser(object):
-	def __init__(self, latitude, longitude, range, Cm, fluence):
+	def __init__(self, latitude, longitude, spot, Cm, fluence):
 		"""
-
 		:param latitude: position
 		:param longitude: position
 		:param range: 'danger area' for satellite
@@ -28,7 +27,8 @@ class Laser(object):
 		"""
 		self.long = longitude
 		self.lat = latitude
-		self.range =range
+		self.spot = spot
+		self.range = range
 		self.fluence = fluence
 		self.Cm = Cm
 

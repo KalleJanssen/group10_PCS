@@ -20,7 +20,7 @@ NOTE: The in the TLE-file stated orbital angles and other complex space numbers 
 """
 
 class Satellite(object):
-	def __init__(self, TLE_l1, TLE_l2, sat_pos_obj, height, width, length, mass, cross_section):
+	def __init__(self, TLE_l1, TLE_l2, sat_pos_obj):
 		self.sat_pos_obj = sat_pos_obj
 		self.x = 0
 		self.y = 0
@@ -43,7 +43,7 @@ class Satellite(object):
 		:param hour:
 		:param minutes:
 		:param sec:
-		:return: sgp4 position-objectof satellite
+		:return: sgp4 position-object of satellite
 		"""
 
 		self.orbital_time = (year, month, day, hour, minutes, sec)
@@ -83,7 +83,7 @@ class Satellite(object):
 
 		return velocity
 
-	def get_lat_long(self, name="SAT"):
+	def get_lat_long(self, rounding=0, name="SAT"):
 		"""
 		This function returns the perpendicular point of satellite
 		projected on earth's surface.
@@ -96,6 +96,9 @@ class Satellite(object):
 		tle_rec.compute(time)
 		lati = (tle_rec.sublat / degree)
 		longi = (tle_rec.sublong / degree)
+		if rounding != 0:
+			lati = rounding * round(lati / rounding)
+			longi = rounding * round(longi / rounding)
 
 
 		return lati, longi
