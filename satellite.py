@@ -32,6 +32,7 @@ class Satellite(object):
 		self.hit = False
 		self.hit_done = False
 		self.already_crossed = False
+		self.burned = False
 		self.prev_duration = 0
 		self.hit_duration = 0
 
