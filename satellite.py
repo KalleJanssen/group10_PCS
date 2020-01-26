@@ -29,6 +29,11 @@ class Satellite(object):
 		self.l1 = TLE_l1
 		self.l2 = TLE_l2
 		self.orbital_time = (0, 0, 0, 0, 0, 0)
+		self.hit = False
+		self.hit_done = False
+		self.already_crossed = False
+		self.prev_duration = 0
+		self.hit_duration = 0
 
 
 
@@ -62,7 +67,7 @@ class Satellite(object):
 		:return: height from center to earth, heaft from surface of the earth
 		"""
 
-		print(self.x, self.y, self.z)
+
 		height_from_center = np.sqrt(self.x ** 2 + self.y ** 2 + self.z ** 2)
 		height_from_surface = height_from_center-6371
 

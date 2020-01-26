@@ -96,7 +96,7 @@ class Laser(object):
 		prev_SAT = deepcopy(satellite)
 
 		deltaRPD = self.calc_velocity_change(satellite, duration)[0]
-		print("rpd change;", deltaRPD)
+
 		satellite.change_mean_motion(deltaRPD)
 
 
