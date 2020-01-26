@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 from mpl_toolkits import mplot3d
 import numpy as np
 import matplotlib.pyplot as plt
+from satellite import Satellite
 
 
 
@@ -37,15 +38,6 @@ def get_satellite_from_TLE(index, filename):
 	return satellite_pos_obj, l1, l2
 
 
-def get_position(satellite_pos_obj, time_sec):
-	"""
-	This function takes a satellite_pos_obj and returns it's
-	position at the given time
-	"""
-
-	pos_obj = satellite_pos_obj.propagate(2019, 6, 29, 12, 50, time_sec)[0] # 12:50:19 on 29 June 2000n
-
-	return pos_obj
 
 
 def get_list_of_sat_pos_objs(amount, filename):
@@ -69,27 +61,20 @@ def get_list_of_sat_pos_objs(amount, filename):
 
 
 
-def sat_simulate(filename, amount_of_satellites, simulation_time):
-	"""
-	This function simulates the satellites orbting the Earth
-	using the given TLE file, amount of satellites and simulation duration
-	The function calculates the position for each given satellite at each time
-	and returns the elapsed running time of the simulation
-	"""
-
-	# get list of satellites
-	sat_pos_obj_list  = get_list_of_sat_pos_objs(2990, "data/output.txt")
+def create_sat_list(amount, filename):
 
 
-	# start simulation
-	start = time.time()
-	for i in range(simulation_time):
-		print(i)
-		for obj in sat_pos_obj_list:
-			pos = get_position(obj, i)
+	sat_pos_objs = get_list_of_sat_pos_objs(amount, filename)
 
+	sat_list = []
 
-	elapsed_time = (time.time() - start)
+	for obj in sat_pos_objs:
+		pos_obj = obj[0]
+		l1 = obj[1]
 
+		l2 = obj[2]
+		sat = Satellite(l1, l2, pos_obj)
+		sat_list.append(sat)
 
-	return elapsed_time
+	return sat_list
+
