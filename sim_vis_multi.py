@@ -21,15 +21,15 @@ from laser import Laser
 
 # --- LOAD SATELLITES ---
 
+print("Loading satellites from .txt file...")
 # load satellites from TLE data and pick first one
 satellites = create_sat_list(2500, "data/output.txt")
-
+print("Done!\n----------------")
 
 
 sats = []
 for sat in satellites:
     sats.append((sat, sphere(radius = 5e4, color = color.green)))
-
 
 
 # --- SETUP EARTH WITH LASER ---
