@@ -13,10 +13,6 @@ from laser import Laser
 
 
 
-
-
-
-
 # --- SIMULATION ---
 
 # --- LOAD SATELLITES ---
@@ -24,7 +20,7 @@ from laser import Laser
 # load satellites from TLE data and pick first one
 
 print("Loading satellites from .txt file...")
-satellites = create_sat_list(2500, "data/output.txt")
+satellites = create_sat_list(3000, "data/output.txt")
 print("Done!\n----------------")
 
 print("Initializing satellites...")
@@ -34,7 +30,7 @@ for sat in satellites:
 print("Done!\n----------------")
 
 
-simulation_time = int((datetime(2020, 1, 10, 17, 20, 0) - datetime(2020, 1, 10, 14, 0, 0)).total_seconds())
+simulation_time = int((datetime(2020, 1, 11, 14, 0, 0) - datetime(2020, 1, 10, 14, 0, 0)).total_seconds())
 
 
 print("Setting up laser...")
@@ -93,8 +89,4 @@ for i in range(simulation_time):
 
 
 
-
-
-
-
-
+print("Result: {:.2f}% --- Hits: {} / {} --- Burned in atmosphere: {} of {} hit satellites".format(i/simulation_time * 100, n_hits, n_sats, n_burned, n_hits))

@@ -36,7 +36,8 @@ for sat in satellites:
 
 scene.title = "Satellite Motion"
 scene.background = color.black
-
+scene.width = 1200
+scene.height = 700
 
 # Calculate xyz coordinates from longitude and latitude
 r = 6378137

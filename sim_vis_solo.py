@@ -14,22 +14,24 @@ from laser import Laser
 
 
 
-
-
 # --- SIMULATION & VISUALIZATION FOR 1 SATELLITE ---
 
 # --- LOAD SATELLITES ---
 
 # load satellites from TLE data and pick first one
+print("Loading satellites from .txt file...")
 satellites = create_sat_list(2500, "data/output.txt")
 SAT1 = satellites[2081]
-print(SAT1.sat_number)
+print("Done!\n----------------")
+
 
 # --- SETUP VISUALIZATION ---
 
+scene.fullscreen = True
 scene.title = "Satellite Motion"
 scene.background = color.black
-
+scene.width = 1200
+scene.height = 700
 
 # Calculate xyz coordinates from longitude and latitude
 r = 6378137
@@ -110,42 +112,6 @@ for i in range(simulation_time):
         if height_from_earth < 350:
             satellite_new.color = color.orange
             trail_new.color = color.orange
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
