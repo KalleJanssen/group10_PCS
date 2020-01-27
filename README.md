@@ -1,8 +1,9 @@
-## Removing space debris with an ORION-based laser
+# Removing space debris with an ORION-based laser
+
+## Instructions
 
 ### Clone repository
-`$ git clone install -r requirements.txt`
-
+`$ git clone https://github.com/KalleJanssen/group10_PCS.git`
 
 ### Install all dependencies
 `$ pip3 install -r requirements.txt`
