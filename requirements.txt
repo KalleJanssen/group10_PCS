@@ -1,2 +1,7 @@
 numpy
 vpython
+sgp4
+ephem
+datetime
+matplotlib
+
