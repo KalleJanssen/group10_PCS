@@ -21,3 +21,6 @@
 
 #### Simulation only for 2500+ satellites
 `$ python3 sim_only_multi.py`
+
+## Old stuff
+In the folder old_stuff is unused code that we still want to keep, most of this code is not commented.
