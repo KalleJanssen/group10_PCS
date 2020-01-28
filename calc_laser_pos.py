@@ -4,16 +4,21 @@ able to rotate (combines where_laser and laser_range)
 """
 
 import ephem
-import datetime
 from sgp4.earth_gravity import wgs72
 from sgp4.io import twoline2rv
 from datetime import datetime, timedelta
-from mpl_toolkits import mplot3d
 import numpy as np
 from ephem import degree
 from math import sin, cos, sqrt, atan2, radians, acos, degrees
-from best_position import *
 import operator
+
+def hourly_it(start, finish):
+    """
+    Returns a list of all timepoints between a start and end date
+    """
+    while finish > start:
+        start = start + timedelta(seconds=1)
+        yield start
 
 def decdeg2dms(dd):
     """

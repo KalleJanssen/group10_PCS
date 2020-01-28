@@ -1,14 +1,6 @@
-import matplotlib.pyplot as plt
-import numpy
-import time
+
 from satellite import Satellite
-from sgp4.earth_gravity import wgs72
-from sgp4.io import twoline2rv
-from datetime import datetime, timedelta
-from mpl_toolkits import mplot3d
-import numpy as np
-import matplotlib.pyplot as plt
-import geopy.distance
+from datetime import datetime
 import ephem
 from copy import deepcopy
 

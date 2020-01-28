@@ -1,16 +1,8 @@
 # Combine laser.py, satellite.py, where_and_parameters.py, earth_sim.py and best_position.py
 
-from sgp4.earth_gravity import wgs72
-from sgp4.io import twoline2rv
-from datetime import datetime, timedelta
-from mpl_toolkits import mplot3d
-import numpy as np
-import matplotlib.pyplot as plt
-from vpython import *
 from TLE_to_Sat_obj import *
-from satellite import Satellite
 from laser import Laser
-
+from datetime import datetime
 
 
 # --- SIMULATION ---
@@ -20,7 +12,7 @@ from laser import Laser
 # load satellites from TLE data and pick first one
 
 print("Loading satellites from .txt file...")
-satellites = create_sat_list(3000, "data/output.txt")
+satellites = create_sat_list(3002, "data/output.txt")
 print("Done!\n----------------")
 
 print("Initializing satellites...")
@@ -30,7 +22,7 @@ for sat in satellites:
 print("Done!\n----------------")
 
 
-simulation_time = int((datetime(2020, 1, 11, 14, 0, 0) - datetime(2020, 1, 10, 14, 0, 0)).total_seconds())
+simulation_time = int((datetime(2020, 1, 10, 16, 0, 0) - datetime(2020, 1, 10, 14, 0, 0)).total_seconds())
 
 
 print("Setting up laser...")
