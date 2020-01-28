@@ -10,6 +10,9 @@
 
 ### How to run 
 
+#### Best place for laser and range of laser
+`$ python3 where_and_parameters.py`
+
 #### Simulation + visualization for one satellite
 `$ python3 sim_vis_solo.py`
 
