@@ -1,7 +1,8 @@
+We recommend using "pip3 intsall <PACKAGE_NAME>" to install the following packages:
+
+sgp4
+matplotlib
 numpy
 vpython
-sgp4
 ephem
-datetime
-matplotlib
-
+geopy
