@@ -1,5 +1,6 @@
 """
-Fixes checksum
+Fixes an error from sgp4.
+From: https://github.com/brandon-rhodes/python-sgp4/blob/master/sgp4/io.py
 """
 
 def fix_checksum(line):
