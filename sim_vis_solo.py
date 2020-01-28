@@ -54,8 +54,8 @@ d = {}
 # make satellites
 satellite_prev = sphere(radius = 5e4, color = color.green)
 satellite_new = sphere(radius = 5e4, color = color.red)
-trail_prev = curve(color = color.yellow, radius = 5e3)
-trail_new = curve(color = color.red, radius = 5e3)
+trail_prev = curve(color = color.yellow, radius = 50e3)
+trail_new = curve(color = color.red, radius = 50e3)
 scene.autoscale = False
 
 
