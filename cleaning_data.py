@@ -1,3 +1,7 @@
+"""
+Removes TLE data that returns errors and satellites not in low Earth orbit
+"""
+
 from sgp4.earth_gravity import wgs72
 from sgp4.io import twoline2rv
 
