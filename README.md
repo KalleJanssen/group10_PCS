@@ -1,4 +1,4 @@
-# Removing space debris with an ORION-based laser
+# Removing space debris with a propulsion laser
 
 ## Instructions
 
