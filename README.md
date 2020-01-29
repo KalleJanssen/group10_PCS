@@ -3,13 +3,16 @@
 In this repository, a simulation and visualization of a propulsion laser that removes space debris from the low Earth orbit is made. Below you can see the instructions on how to run the simulations and visualizations. 
 
 ## Results
-
 Simulating and visualizing 3000+ satellites
-![multi](figures/vis_multi.png | width=300)
+<img scr="figures/vis_multi.png"><br>
+![multi](figures/vis_multi.png)
 Simulating and visualizing one satellite
+<img scr="figures/vis_solo.png"><br>
 ![solo](figures/vis_solo.png)
 Simulation results
+<img scr="figures/fig1.png"><br>
 ![fig1](figures/fig1.png)
+
 
 ## Instructions
 
