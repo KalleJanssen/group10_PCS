@@ -36,3 +36,6 @@ Hit and eventually burned in atmosphere: 447 out of 814 hit satellites
 
 ## Old stuff
 In the folder old_stuff is unused code that we still wanted to keep, most of this code is not commented.
+
+## Contributors
+Bart van Vulpen and Kalle Janssen
