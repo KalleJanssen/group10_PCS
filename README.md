@@ -19,7 +19,7 @@
 #### Simulation + visualization for one satellite (visualizes old and new orbit after hit)
 `$ python3 sim_vis_solo.py`
 
-#### Calculation of the best location of the laser
+#### Calculation of the best location for the laser
 `$ python3 calc_laser_pos.py`
 
 
