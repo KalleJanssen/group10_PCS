@@ -24,10 +24,10 @@ Hit and eventually burned in atmosphere: 447 out of 814 hit satellites
 #### Simulation only for 3000+ satellites (gives results in print)
 `$ python3 sim_only_multi.py`
 
-#### Simulation + visualization for 3000+ satellites (shows visualization of above)
+#### Simulation + visualization for 3000+ satellites (visualization of sim_only_multi.py)
 `$ python3 sim_vis_multi.py`
 
-#### Simulation + visualization for one satellite (visualizes old and new orbit after hit)
+#### Simulation + visualization for one satellite (visualizes old and new orbit of after hit)
 `$ python3 sim_vis_solo.py`
 
 #### Calculation of the best location for the laser
