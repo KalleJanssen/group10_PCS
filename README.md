@@ -3,12 +3,13 @@
 In this repository, a simulation and visualization of a propulsion laser that removes space debris from the low Earth orbit is made. Below you can see the instructions on how to run the simulations and visualizations. 
 
 ## Results
-Simulating and visualizing 3000+ satellites
+### Simulating and visualizing 3000+ satellites
 ![multi](figures/vis_multi.png) <br><br>
-Simulating and visualizing one satellite
+### Simulating and visualizing one satellite
 ![solo](figures/vis_solo.png) <br><br>
-Simulation results
-![fig1](figures/fig1.png)
+### Simulation results
+Hit by laser: 814 out of 3002 satellites
+Hit and eventually burned in atmosphere: 547 out of 814 hit satellites
 
 ## Instructions
 
