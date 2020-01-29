@@ -1,5 +1,11 @@
 # Removing space debris with a propulsion laser
 
+In this repository, a simulation and visualization of a propulsion laser that removes space debris from the low Earth orbit is made. Below you can see the instructions on how to run the simulations and visualizations. 
+
+## Results
+
+![alt text](http://url/to/img.png)
+
 ## Instructions
 
 ### Clone repository
