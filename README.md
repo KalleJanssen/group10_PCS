@@ -13,14 +13,15 @@
 #### Best place for laser and range of laser
 `$ python3 calc_laser_pos.py`
 
-#### Simulation + visualization for one satellite
-`$ python3 sim_vis_solo.py`
-
-#### Simulation + visualization for 2500+ satellites
-`$ python3 sim_vis_multi.py`
-
-#### Simulation only for 2500+ satellites
+#### Simulation only for 3000+ satellites (gives results in print)
 `$ python3 sim_only_multi.py`
 
+#### Simulation + visualization for 3000+ satellites (shows visualization of above)
+`$ python3 sim_vis_multi.py`
+
+#### Simulation + visualization for one satellite (visualizes old and new orbit after hit)
+`$ python3 sim_vis_solo.py`
+
+
 ## Old stuff
-In the folder old_stuff is unused code that we still want to keep, most of this code is not commented.
+In the folder old_stuff is unused code that we still wanted to keep, most of this code is not commented.
