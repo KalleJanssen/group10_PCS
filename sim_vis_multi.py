@@ -30,6 +30,9 @@ print("Done!\n----------------")
 
 # --- SETUP EARTH VISUALIZATION WITH LASER AND SATELLITES ---
 
+print("Started simulation and visualization!")
+print("Press CTRL+C to stop simulation and visualization.")
+
 # create satellite visualizations
 sats = []
 for sat in satellites:
