@@ -9,7 +9,7 @@ In this repository, a simulation and visualization of a propulsion laser that re
 ![solo](figures/vis_solo.png)
 #### Simulation results
 Hit by laser: 814 out of 3002 satellites<br>
-Hit and eventually burned in atmosphere: 547 out of 814 hit satellites
+Hit and eventually burned in atmosphere: 447 out of 814 hit satellites
 
 ## Instructions
 
