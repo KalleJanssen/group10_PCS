@@ -88,7 +88,7 @@ laser = Laser(80, -15, range=laser_range, Cm=Cm, fluence=Fluence)
 # --- SIMULATE AND VISUALIZE ---
 
 for i in range(simulation_time):
-    rate(1000)
+    rate(500)
 
     if SAT1.already_crossed == False:
         lati, longi = SAT1.get_lat_long(rounding=5)
