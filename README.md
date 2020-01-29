@@ -4,9 +4,9 @@ In this repository, a simulation and visualization of a propulsion laser that re
 
 ## Results
 Simulating and visualizing 3000+ satellites
-```html
-<img scr="figures/vis_multi.png"><br>
-```
+<div align="center">
+  <img scr="figures/vis_multi.png"></img><br>
+</div>
 Simulating and visualizing one satellite
 <img scr="figures/vis_solo.png"><br>
 Simulation results
