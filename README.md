@@ -5,11 +5,11 @@ In this repository, a simulation and visualization of a propulsion laser that re
 ## Results
 
 Simulating and visualizing 3000+ satellites
-![multi](https://raw.githubusercontent.com/KalleJanssen/group10_PCS/master/figures/vis_multi.png)
+![multi](https://raw.githubusercontent.com/KalleJanssen/group10_PCS/master/figures/vis_multi.png | width=300)
 Simulating and visualizing one satellite
-![solo](https://raw.githubusercontent.com/KalleJanssen/group10_PCS/master/figures/vis_solo.png)
+![solo](https://raw.githubusercontent.com/KalleJanssen/group10_PCS/master/figures/vis_solo.png | width=300)
 Simulation results
-![fig1](https://raw.githubusercontent.com/KalleJanssen/group10_PCS/master/figures/fig1.png)
+![fig1](https://raw.githubusercontent.com/KalleJanssen/group10_PCS/master/figures/fig1.png | width=300)
 
 ## Instructions
 
