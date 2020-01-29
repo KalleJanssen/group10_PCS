@@ -8,10 +8,7 @@
 ### Install all dependencies
 `$ pip3 install -r requirements.txt`
 
-### How to run 
-
-#### Best place for laser and range of laser
-`$ python3 calc_laser_pos.py`
+### How to run simulation and visualization
 
 #### Simulation only for 3000+ satellites (gives results in print)
 `$ python3 sim_only_multi.py`
@@ -21,6 +18,9 @@
 
 #### Simulation + visualization for one satellite (visualizes old and new orbit after hit)
 `$ python3 sim_vis_solo.py`
+
+#### Calculation of the best location of the laser
+`$ python3 calc_laser_pos.py`
 
 
 ## Old stuff
