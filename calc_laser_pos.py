@@ -1,8 +1,3 @@
-"""
-Calculates best place to place the laser and then the angle the laser should be
-able to rotate (combines where_laser and laser_range)
-"""
-
 import ephem
 from sgp4.earth_gravity import wgs72
 from sgp4.io import twoline2rv
@@ -12,29 +7,56 @@ from ephem import degree
 from math import sin, cos, sqrt, atan2, radians, acos, degrees
 import operator
 
+"""
+------------------------------------------------------------------------------------
+The functions in this file are being used to calculate the best position to place
+the laser and the angle the laser should be able to rotate to determine its range
+------------------------------------------------------------------------------------
+"""
+
 def hourly_it(start, finish):
     """
-    Returns a list of all timepoints between a start and end date
+    This function yields a list of all timepoints
+    between a start and end date
+    :param start: start timepoint
+    :param finish: begin timepoint
+    :return: list of all timepoints between a start and end date
     """
+
     while finish > start:
         start = start + timedelta(seconds=1)
         yield start
 
 def decdeg2dms(dd):
     """
-    Transforms decimal coordinates to dms format
+    This function transforms decimal coordinates to DMS format
+    :param dd: decimal coordinates
+    :return: DMS formatted coordinates
     """
+
+    # convert coordinates to dms format
     is_positive = dd >= 0
     dd = abs(dd)
     minutes,seconds = divmod(dd*3600,60)
     degrees1,minutes = divmod(minutes,60)
     degrees1 = degrees1 if is_positive else -degrees1
+
     return str(str(degrees1) + ':' + str(minutes) + ':' + str(seconds))
 
 def height_sat(l1, l2, i, lati, longi):
     """
-    Returns distance to a specific coordinate
+    This function calculates the distance
+    of a satellite to a specific coordinate
+    :param l1: TLE line 1
+    :param l2: TLE line 2
+    :param i: date in datetime format
+    :param lati: latitude of coordinate
+    :param longi: longitude of coordinate
+    :return: distance between satellite and coordinate
     """
+
+    # calculate distance between object on earth
+    # and satellite in meters
     laser = ephem.Observer()
     tle_rec = ephem.readtle("name", l1, l2)
     tle_rec.compute(i)
@@ -42,19 +64,27 @@ def height_sat(l1, l2, i, lati, longi):
     laser.lat = decdeg2dms(lati)
     laser.elevation = 0
     laser.date = i
-
-
     tle_rec = ephem.readtle("SAT", l1, l2)
     tle_rec.compute(laser)
 
+    # convert to kilometers
     d = tle_rec.range / 1000
 
     return d
 
 def lati_longi(l1, l2, time1, rounding=0, name="ISS (ZARYA)"):
     """
-    Returns latitude and longitude of a satellite, can be rounded to 1, 2 or 5
+    This function calculates the latitude and longitude of a satellite,
+    which can be rounded to 1, 2 or 5
+    :param l1: TLE line 1
+    :param l2: TLE line 2
+    :param time1: timestamp in datetime format
+    :param rounding: rounding factor
+    :param name: can be ignored
+    :return: latitude and longitude of satellite
     """
+
+    # calculate latitude and longitude using Ephem
     tle_rec = ephem.readtle(name, l1, l2)
     tle_rec.compute(time1)
     lati = (tle_rec.sublat / degree)
@@ -62,6 +92,7 @@ def lati_longi(l1, l2, time1, rounding=0, name="ISS (ZARYA)"):
     if rounding != 0:
         lati = rounding * round(lati/rounding)
         longi = rounding * round(longi/rounding)
+
     return lati, longi
 
 
@@ -71,20 +102,30 @@ def possible_coords(rounding):
     is added which decides in how many parts the longitude and latitude should
     be divided so that the laser can reach a bigger area. The different values
     should be 1, 2, 5 or 10
+    :param rounding: rounding factor
+    :return: dictionary with all possible coordinate combinations
     """
+
+    # create the dictionary with all possible coordinate combinations
     dicti = {}
     for longi in np.linspace(-180, 180, 360//rounding + 1):
         for lati in np.linspace(-90, 90, 180//rounding + 1):
             calc = (lati, longi)
             dicti[calc] = 0
+
     return dicti
 
 
 def calc_loc(dicti, filename):
     """
     Calculates the latitude and longitude that the satellites are above, keeps a
-    dictionary of the latitude and longitudes that the most satellites are near
+    dictionary of the latitude and longitudes where the most satellites are near
+    :param dicti: dictionary created with possible_coords
+    :param filename: TLE data .txt filename
+    :return: dictionary of the latitude and longitudes where the most satellites are near
+    and the place at which the most satellites pass by
     """
+
     progress = 0
 
     # Goes through all satellites
@@ -111,17 +152,26 @@ def calc_loc(dicti, filename):
         # Makes the progress bar
         if progress % 30 == 0:
             percent_done = int(progress/len(filename)*100)
-            print("{} percent done first half" .format(percent_done), end="\r")
+            print("First part: {}% done" .format(percent_done), end="\r")
+
     # Coordinates with most satellites
     place = max(dicti.items(), key=operator.itemgetter(1))[0]
 
     return dicti, place
 
 
-def calc_angle(dicti, filename, place):
+def calc_angle(filename, place):
     """
     Calculates the angle that the laser should be able to reach
+    :param filename: TLE data .txt filename
+    :param place: the place of the laser in a (lat, long) tuple
+    :return: highest_total - diameter of laser at highest point,
+             angle_laser - the angle of the laser,
+             minimum_distance - distance to closest satellite,
+             maximum_distance - distance to furthest satellite
     """
+
+    # initialize variables
     progress = 0
     highest_total = 0
     maximum_distance = 0
@@ -142,6 +192,7 @@ def calc_angle(dicti, filename, place):
         # coordinates for those seconds
         for i in hourly_it(start, finish):
             lati, longi = lati_longi(l1, l2, i, 5)
+
             # Location of laser
             if (lati, longi) == place:
                 satellite = twoline2rv(l1, l2, wgs72)
@@ -168,7 +219,7 @@ def calc_angle(dicti, filename, place):
                     best_j1 = j1
         if progress % 30 == 0:
             percent_done = int(progress/len(filename)*100)
-            print("{} percent done second half" .format(percent_done), end="\r")
+            print("Second part: {}% done" .format(percent_done+1), end="\r")
 
     # Calculates the angle that the laser should be able to reach
     # takes the maximum distance between two satellites while they are both in
@@ -177,25 +228,36 @@ def calc_angle(dicti, filename, place):
     b = np.sqrt((best_i1[0])**2 + (best_i1[1])**2 + (best_i1[2])**2) - 6371
     c = np.sqrt((best_j1[0])**2 + (best_j1[1])**2 + (best_j1[2])**2) - 6371
     angle_laser = degrees(acos((b**2 + c**2 - highest_total**2)/(2.0 * b * c)))
+
     return highest_total, angle_laser, minimum_distance, maximum_distance
 
 if __name__ == '__main__':
-    filename = open("data/output.txt", "r").read().splitlines()
+    """
+    This main part combines all functions above and calculate the 
+    best position to place the laser and the angle the laser should 
+    be able to rotate to determine its range
+    """
+
+    # read file
+    filename = open("data/cleaned_tle.txt", "r").read().splitlines()
 
     # start and finish time in year month day hour minute second
     start = datetime(2020, 1, 10, 14, 0, 0)
     finish = datetime(2020, 1, 10, 16, 0, 0)
 
-    print("Takes about 5 minutes")
+    print("Starting calculation - Estimated time: 5 minutes")
 
+    # calculate best place
     dicti, place = calc_loc(possible_coords(5), filename)
-    #
-    print("Best place: {} (lati, longi) \nWith {} satellites" .format(place, dicti[place]))
 
-    #place = (80, -15)
-    h, a, mini, maxi = calc_angle(possible_coords(5), filename, place)
+    print("Best place: {} - format: '(latitude, longitude)' \nWith {} satellites" .format(place, dicti[place]))
 
-    print("Diameter of the sky: {} km" .format(round(h, 1)))
+    # place = (80, -15)
+    h, a, mini, maxi = calc_angle(filename, place)
+
+    # print results
+    print("\n\n- RESULTS -")
+    print("Diameter of laser at highest point: {} km" .format(round(h, 1)))
     print("The angle of the laser: {} degrees" .format(round(a, 1)))
     print("Closest satellite: {} km" .format(round(mini, 1)))
     print("Furthest satellite: {} km" .format(round(maxi, 1)))

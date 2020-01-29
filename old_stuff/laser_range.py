@@ -12,7 +12,7 @@ import operator
 
 print("Takes about 5 minutes")
 
-filename = open("data/output.txt", "r").read().splitlines()
+filename = open("data/cleaned_tle.txt", "r").read().splitlines()
 
 # start and finish time in year month day hour minute second
 start = datetime(2020, 1, 10, 14, 0, 0)

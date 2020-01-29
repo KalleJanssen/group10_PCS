@@ -6,10 +6,11 @@ from ephem import degree
 from datetime import datetime, timedelta
 from checksum import fix_checksum
 
-
 """
-This Class contains a Satellite object, with its position, 
-TLE data and other attributes needed for simulation
+------------------------------------------------------------------------------------
+This Class contains a Satellite object, with its position, TLE data and other 
+attributes needed for simulation
+------------------------------------------------------------------------------------
 """
 
 class Satellite(object):

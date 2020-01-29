@@ -1,21 +1,30 @@
 """
-Fixes an error from sgp4.
-From: https://github.com/brandon-rhodes/python-sgp4/blob/master/sgp4/io.py
+------------------------------------------------------------------------------------
+The functions in this file fix an error from sgp4, which was not included
+in the pip install of sgp4, but is available on the sgp4 Github page.
+
+SOURCE:
+https://github.com/brandon-rhodes/python-sgp4/blob/master/sgp4/io.py
+------------------------------------------------------------------------------------
 """
 
 def fix_checksum(line):
-    """Return a new copy of the TLE `line`, with the correct checksum appended.
+    """
+    Return a new copy of the TLE `line`, with the correct checksum appended.
     This discards any existing checksum at the end of the line, if a
     checksum is already present.
     """
     return line[:68].ljust(68) + str(compute_checksum(line))
 
 def compute_checksum(line):
-    """Compute the TLE checksum for the given line."""
+    """
+    Compute the TLE checksum for the given line.
+    """
     return sum((int(c) if c.isdigit() else c == '-') for c in line[0:68]) % 10
 
 def verify_checksum(*lines):
-    """Verify the checksum of one or more TLE lines.
+    """
+    Verify the checksum of one or more TLE lines.
     Raises `ValueError` if any of the lines fails its checksum, and
     includes the failing line in the error message.
     """

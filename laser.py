@@ -1,12 +1,13 @@
-
 from satellite import Satellite
 from datetime import datetime
 import ephem
 from copy import deepcopy
 
 """
-This class contains a Laser object
-
+------------------------------------------------------------------------------------
+This class contains a Laser object that respresents the propulsion laser with it's
+necessary model, attributes and functions
+------------------------------------------------------------------------------------
 """
 
 class Laser(object):

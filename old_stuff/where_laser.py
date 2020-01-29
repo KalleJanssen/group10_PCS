@@ -14,7 +14,7 @@ from math import sin, cos, sqrt, atan2, radians
 from best_position import *
 import operator
 
-filename = open("data/output.txt", "r").read().splitlines()
+filename = open("data/cleaned_tle.txt", "r").read().splitlines()
 
 # start and finish time in year month day hour minute second
 start = datetime(2020, 1, 10, 14, 0, 0)

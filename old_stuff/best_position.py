@@ -65,7 +65,7 @@ def plot_satellites(coord_list):
 
     plt.savefig('plots/foo.png')
 
-filename = open("data/output.txt", "r").read().splitlines()
+filename = open("data/cleaned_tle.txt", "r").read().splitlines()
 position_dict = {}
 error1 = 0
 

@@ -36,7 +36,7 @@ def plotting(l1, l2):
         zline = [i[2] for i in position_list]
         ax.plot3D(xline, yline, zline, 'gray')
 
-f = open("data/output.txt", "r").read().splitlines()
+f = open("data/cleaned_tle.txt", "r").read().splitlines()
 position_list = []
 error1 = 0
 for line in f:
