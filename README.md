@@ -4,7 +4,7 @@ In this repository, a simulation and visualization of a propulsion laser that re
 
 ## Results
 
-![multi](https://github.com/KalleJanssen/group10_PCS/tree/master/figures/vis_multi.png)
+![multi](https://raw.githubusercontent.com/KalleJanssen/group10_PCS/master/figures/vis_multi.png)
 ![solo](https://github.com/KalleJanssen/group10_PCS/tree/master/figures/vis_solo.png)
 ![fig1](https://github.com/KalleJanssen/group10_PCS/tree/master/figures/fig1.png)
 
