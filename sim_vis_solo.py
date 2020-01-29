@@ -31,7 +31,7 @@ print("Press CTRL+C to stop simulation and visualization.")
 
 # setup scene
 scene.fullscreen = True
-scene.title = "Satellite Motion"
+scene.title = "Satellite orbiting the Earth and being hit by laser"
 scene.background = color.black
 scene.width = 1200
 scene.height = 700

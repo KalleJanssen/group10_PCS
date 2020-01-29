@@ -84,14 +84,21 @@ laser = Laser(80, -15, range=laser_range, Cm=Cm, fluence=Fluence)
 
 # --- SIMULATE AND VISUALIZE ---
 
+# initialize counts
+n_burned = 0
+n_hits = 0
+n_sats = len(satellites)
+
 for i in range(simulation_time):
     rate(1000)
 
     # update every satellite's position, every second
     for sat, visual in sats:
+        scene.title = "Hits: {} / {} satellites\nBurned in atmosphere: {} of {} hit satellites".format(n_hits, n_sats, n_burned, n_hits)
 
         if sat.already_crossed == False:
             lati, longi = sat.get_lat_long(rounding=5)
+
             # move 1 second in orbit
             sat.move_in_orbit(1)
 
@@ -113,6 +120,8 @@ for i in range(simulation_time):
             # hit satellite with laser, let prev_sat carry on
             prev_SAT = laser.hit_satellite(sat, sat.hit_duration)
 
+            n_hits += 1
+
             # hit is done after hit_duration
             sat.hit_done = True
 
@@ -127,6 +136,9 @@ for i in range(simulation_time):
             # and eventually burned in atmosphere
             height_from_earth = sat.calc_height()[1]
             if height_from_earth < 350:
+                if sat.burned == False:
+                    n_burned += 1
+                sat.burned = True
                 visual.color = color.orange
 
 

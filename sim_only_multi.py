@@ -103,4 +103,4 @@ for i in range(simulation_time):
 
 
 
-print("Result: {:.2f}% --- Hits: {} / {} --- Burned in atmosphere: {} of {} hit satellites".format(i/simulation_time * 100, n_hits, n_sats, n_burned, n_hits))
+print("\nResult: {:.2f}% --- Hits: {} / {} --- Burned in atmosphere: {} of {} hit satellites".format(i/simulation_time * 100, n_hits, n_sats, n_burned, n_hits))
