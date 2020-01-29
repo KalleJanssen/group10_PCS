@@ -8,19 +8,19 @@ from checksum import fix_checksum
 
 
 """
-This Class contains a Satellite object, with its positions and TLE data
-
-
-To create the object, first use the get_satellite_from_TLE or
-get_list_of_sat_pos_objs function to get the sat_pos_obj
-
-
-NOTE: The in the TLE-file stated orbital angles and other complex space numbers will be added
-
+This Class contains a Satellite object, with its position, 
+TLE data and other attributes needed for simulation
 """
 
 class Satellite(object):
 	def __init__(self, TLE_l1, TLE_l2, sat_pos_obj):
+		"""
+		This function initalizes a satellite object for the simulation
+		:param TLE_l1: line 1 of satellite data from TLE .txt file
+		:param TLE_l2: line 2 of satellite data from TLE .txt file
+		:param sat_pos_obj: satellite position object created with sgp4
+		for orbit position calculation
+		"""
 		self.sat_pos_obj = sat_pos_obj
 		self.x = 0
 		self.y = 0
@@ -49,12 +49,14 @@ class Satellite(object):
 		:param hour:
 		:param minutes:
 		:param sec:
-		:return: sgp4 position-object of satellite
+		:return: x, y, z position of the satellite in space
 		"""
 
+		# calculates x, y, z position vector in space
 		self.orbital_time = (year, month, day, hour, minutes, sec)
-
 		position = self.sat_pos_obj.propagate(year, month, day, hour, minutes, sec)[0]
+
+		# sets x, y, z positions
 		self.x = position[0]
 		self.y = position[1]
 		self.z = position[2]
@@ -65,10 +67,10 @@ class Satellite(object):
 		"""
 		This function calculates the height of a satellite above sea level
 		using its x, y, z coordinates.
-		:return: height from center to earth, heaft from surface of the earth
+		:return: height from center to earth, height from surface of the earth
 		"""
 
-
+		# calculate height by taking vector length
 		height_from_center = np.sqrt(self.x ** 2 + self.y ** 2 + self.z ** 2)
 		height_from_surface = height_from_center-6371
 
@@ -97,6 +99,9 @@ class Satellite(object):
 		:param name: can be ignored, not needed
 		:return: projected longitude and latitude on Earth's surface
 		"""
+
+		# get latitude and longitude of satellite using its TLE
+		# data and the Python Ephem module
 		tle_rec = ephem.readtle(name, self.l1, self.l2)
 		year, month, day, hour, minutes, sec = self.orbital_time
 		time = datetime(year, month, day, hour, minutes, sec)
@@ -117,15 +122,10 @@ class Satellite(object):
 		:return: the satellite's new space/orbit position
 		"""
 
-		# change orbital time attribute
+		# change orbital time attribute with timedelta
 		year, month, day, hour, minutes, sec = self.orbital_time
-
 		dt1 = datetime(year, month, day, hour, minutes, sec)
-
 		dt2 = dt1 + timedelta(seconds=seconds)
-
-
-
 		new_orbital_time = (dt2.year, dt2.month, dt2.day, dt2.hour, dt2.minute, dt2.second)
 		self.orbital_time = new_orbital_time
 
@@ -134,8 +134,6 @@ class Satellite(object):
 		self.x = new_position[0]
 		self.y = new_position[1]
 		self.z = new_position[2]
-
-		# return new position
 
 		return new_position
 
@@ -154,30 +152,31 @@ class Satellite(object):
 		mean_motion = '{:.8f}'.format(mean_motion + dV)
 		mean_motion = list(mean_motion)
 
-
 		# get it back in right TLE format
 		l2_listed = list(self.l2)
 		l2_listed[52:63] = mean_motion
 
-
+		# fix TLE line 2 checksum
 		self.l2 = fix_checksum(''.join(map(str, l2_listed)))
 
-		prev_pos_obj = self.sat_pos_obj
 		# object orbit has changed, create new sat_pos_obj
-
 		self.sat_pos_obj = twoline2rv(self.l1, self.l2, wgs72)
 
 		return self.sat_pos_obj
 
 	def height_sat(self, lati, longi):
 		"""
-        Returns distance from satellite object to a specific coordinate
-        """
+		Returns distance from satellite object to a specific coordinate on earth (observer)
+		:param lati: latitude of observer on earth
+		:param longi: longitude of observer on earth
+		:return: distance from observer to satellite
+		"""
 
+		# get orbital time of satellite in datetime-format
 		year, month, day, hour, minutes, sec = self.orbital_time
 		time = datetime(year, month, day, hour, minutes, sec)
 
-
+		# calculate distance from satellite to observer in meters
 		laser = ephem.Observer()
 		tle_rec = ephem.readtle("name", self.l1, self.l2)
 		tle_rec.compute(time)
@@ -185,10 +184,10 @@ class Satellite(object):
 		laser.lat = decdeg2dms(lati)
 		laser.elevation = 0
 		laser.date = time
-
 		tle_rec = ephem.readtle("SAT", self.l1, self.l2)
 		tle_rec.compute(laser)
 
+		# convert to kilometers
 		d = tle_rec.range / 1000
 
 		return d
